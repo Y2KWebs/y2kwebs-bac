@@ -1,0 +1,44 @@
+.y2kwebs-bac-fields {
+	border: 0;
+	margin: 0;
+	padding: 0;
+}
+
+.y2kwebs-bac-fields input {
+	box-sizing: border-box;
+	width: 100%;
+}
+
+.y2kwebs-bac-privacy {
+	clear: both;
+	font-size: 0.875em;
+	opacity: 0.8;
+}
+
+.y2kwebs-bac-authentication iframe {
+	border: 0;
+	min-height: 560px;
+	width: 100%;
+}
+
+.y2kwebs-bac-block-fields {
+	display: grid;
+	gap: 12px;
+	margin-top: 12px;
+}
+
+.y2kwebs-bac-block-fields label {
+	display: grid;
+	gap: 4px;
+}
+
+.y2kwebs-bac-block-fields input {
+	box-sizing: border-box;
+	width: 100%;
+}
+
+.y2kwebs-bac-block-row {
+	display: grid;
+	gap: 12px;
+	grid-template-columns: 1fr 1fr;
+}

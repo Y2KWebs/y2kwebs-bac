@@ -1,0 +1,119 @@
+name: Plugin checks
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: checks-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php: ['7.4', '8.2', '8.4']
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # 2.40.0
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: none
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: '3.11'
+      - name: Syntax, public content and packaging
+        run: |
+          git ls-files -z '*.php' | xargs -0 -r -n1 php -l
+          python scripts/check_public.py
+          python -m unittest discover -s tests -p 'test_*.py'
+  integration:
+    needs: quality
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: minimum
+            wp: '6.9'
+            wc: '9.0.0'
+            php: '7.4'
+          - name: modern
+            wp: '7.1.4'
+            wc: '11.2.1'
+            php: '8.2'
+    name: ${{ matrix.name }} / classic / HPOS / ZIP
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: '3.11'
+      - name: Start disposable WordPress
+        run: |
+          docker compose -f tests/compose.yml up -d db wordpress
+          for attempt in $(seq 1 30); do
+            if docker compose -f tests/compose.yml exec -T db healthcheck.sh --connect --innodb_initialized; then break; fi
+            sleep 2
+          done
+          docker compose -f tests/compose.yml exec -T db healthcheck.sh --connect --innodb_initialized
+          docker compose -f tests/compose.yml run --rm cli wp core install --url=http://localhost:8088 --title=Local --admin_user=localtester --admin_password=local-only-test-password --admin_email=test@example.invalid --skip-email
+          if [ '${{ matrix.wp }}' != '6.9' ]; then
+            docker compose -f tests/compose.yml run --rm cli wp core update --version='${{ matrix.wp }}' --force
+            docker compose -f tests/compose.yml run --rm cli wp core update-db
+          fi
+          docker compose -f tests/compose.yml run --rm cli wp plugin install woocommerce --version='${{ matrix.wc }}' --activate
+          docker compose -f tests/compose.yml run --rm cli wp plugin activate y2kwebs-bac
+          docker compose -f tests/compose.yml run --rm cli wp eval-file wp-content/plugins/y2kwebs-bac/tests/setup-ui.php
+      - name: Use PHP 7.4 on the minimum stack
+        if: matrix.php == '7.4'
+        run: |
+          docker build -f tests/Dockerfile.php74 -t y2kwebs-bac-php74-test .
+          echo 'BAC_CLI_IMAGE=y2kwebs-bac-php74-test' >> "$GITHUB_ENV"
+          echo 'BAC_WP_IMAGE=y2kwebs-bac-php74-test' >> "$GITHUB_ENV"
+          BAC_WP_IMAGE=y2kwebs-bac-php74-test docker compose -f tests/compose.yml up -d wordpress
+      - name: Both order storages and HTTP callbacks
+        run: |
+          for storage in no yes; do
+            docker compose -f tests/compose.yml run --rm cli wp wc hpos sync
+            docker compose -f tests/compose.yml run --rm cli wp option update woocommerce_custom_orders_table_enabled "$storage"
+            test "$(docker compose -f tests/compose.yml run --rm cli wp option get woocommerce_custom_orders_table_enabled)" = "$storage"
+            docker compose -f tests/compose.yml run --rm cli wp eval-file wp-content/plugins/y2kwebs-bac/tests/integration/smoke.php
+            docker compose -f tests/compose.yml run --rm cli wp eval-file wp-content/plugins/y2kwebs-bac/tests/flows.php
+            docker compose -f tests/compose.yml run --rm cli wp eval-file wp-content/plugins/y2kwebs-bac/tests/http.php
+          done
+      - name: Build and verify the extracted release
+        run: |
+          python scripts/prepare_wordpress_org.py
+          python -m zipfile -e dist/y2kwebs-bac-1.0.0.zip .runtime/release-check
+          release_mount="$GITHUB_WORKSPACE/.runtime/release-check/y2kwebs-bac:/var/www/html/wp-content/plugins/y2kwebs-bac:ro"
+          smoke_mount="$GITHUB_WORKSPACE/tests/release-smoke.php:/tmp/y2k-release-smoke.php:ro"
+          docker compose -f tests/compose.yml run --rm --volume "$release_mount" cli wp plugin deactivate y2kwebs-bac
+          docker compose -f tests/compose.yml run --rm --volume "$release_mount" cli wp plugin activate y2kwebs-bac
+          docker compose -f tests/compose.yml run --rm --volume "$release_mount" --volume "$smoke_mount" cli wp eval-file /tmp/y2k-release-smoke.php
+          cd dist
+          sha256sum --check y2kwebs-bac-1.0.0.zip.sha256
+      - name: Full Plugin Check on the current stack
+        if: matrix.name == 'modern'
+        run: |
+          docker compose -f tests/compose.yml run --rm cli wp plugin install plugin-check --version=2.1.0 --activate
+          release_mount="$GITHUB_WORKSPACE/.runtime/release-check/y2kwebs-bac:/var/www/html/wp-content/plugins/y2kwebs-bac:ro"
+          docker compose -f tests/compose.yml run --rm --volume "$release_mount" cli wp --require=/var/www/html/wp-content/plugins/plugin-check/cli.php plugin check y2kwebs-bac --format=csv --fields=type,code > .runtime/plugin-check.csv
+          cat .runtime/plugin-check.csv
+          if grep -qE '^"?(ERROR|WARNING)"?,' .runtime/plugin-check.csv; then exit 1; fi
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: y2kwebs-bac-1.0.0-${{ matrix.name }}
+          path: |
+            dist/y2kwebs-bac-1.0.0.zip
+            dist/y2kwebs-bac-1.0.0.zip.sha256
+          if-no-files-found: error
+          retention-days: 14
+      - name: Stop disposable services
+        if: always()
+        run: docker compose -f tests/compose.yml down --volumes

@@ -1,0 +1,7 @@
+FROM wordpress:6.9-php8.2-apache AS wordpress_source
+FROM wordpress:cli-php8.2 AS cli_source
+FROM php:7.4-apache
+RUN docker-php-ext-install mysqli && a2enmod rewrite
+COPY --from=wordpress_source /usr/src/wordpress /var/www/html
+COPY --from=cli_source /usr/local/bin/wp /usr/local/bin/wp
+WORKDIR /var/www/html

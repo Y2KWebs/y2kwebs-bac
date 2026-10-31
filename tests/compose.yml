@@ -1,0 +1,41 @@
+name: y2kwebs-bac-test
+services:
+  db:
+    image: mariadb:11.4
+    environment:
+      MARIADB_DATABASE: wordpress
+      MARIADB_USER: wordpress
+      MARIADB_PASSWORD: local-test-only
+      MARIADB_ROOT_PASSWORD: local-root-test-only
+    volumes:
+      - db:/var/lib/mysql
+  wordpress:
+    image: ${BAC_WP_IMAGE:-wordpress:6.9-php8.2-apache}
+    ports:
+      - "127.0.0.1:${BAC_TEST_PORT:-8088}:80"
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: local-test-only
+      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_CONFIG_EXTRA: "define('Y2KWEBS_BAC_LOCAL_TEST', true);"
+    volumes:
+      - wp:/var/www/html
+      - ..:/var/www/html/wp-content/plugins/y2kwebs-bac
+      - ./ui-fixture.php:/var/www/html/wp-content/mu-plugins/y2kwebs-bac-local.php:ro
+  cli:
+    image: ${BAC_CLI_IMAGE:-wordpress:cli-php8.2}
+    user: "33:33"
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: local-test-only
+      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_CONFIG_EXTRA: "define('Y2KWEBS_BAC_LOCAL_TEST', true);"
+    volumes:
+      - wp:/var/www/html
+      - ..:/var/www/html/wp-content/plugins/y2kwebs-bac
+      - ./ui-fixture.php:/var/www/html/wp-content/mu-plugins/y2kwebs-bac-local.php:ro
+volumes:
+  db:
+  wp:

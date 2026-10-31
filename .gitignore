@@ -1,0 +1,9 @@
+.runtime/
+dist/
+.env
+.env.*
+*.local.*
+__pycache__/
+node_modules/
+vendor/
+coverage/
