@@ -52,6 +52,7 @@ def package(root=ROOT):
     with zipfile.ZipFile(archive, "w", compression=zipfile.ZIP_DEFLATED) as target:
         for name, data in sorted(contents.items()):
             info = zipfile.ZipInfo(f"{SLUG}/{name}", date_time=(2026, 1, 1, 0, 0, 0))
+            info.create_system = 3  # Stable Unix metadata on Windows and Linux alike.
             info.compress_type = zipfile.ZIP_DEFLATED
             info.external_attr = 0o100644 << 16
             target.writestr(info, data)

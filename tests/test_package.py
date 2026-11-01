@@ -29,6 +29,7 @@ class PackageTests(unittest.TestCase):
             self.assertEqual(first, archive.read_bytes())
             with zipfile.ZipFile(archive) as source:
                 self.assertEqual(set(source.namelist()), {f"{SLUG}/{name}" for name in FILES})
+                self.assertTrue(all(info.create_system == 3 for info in source.infolist()))
                 for name in FILES:
                     self.assertEqual((root / name).read_bytes(), source.read(f"{SLUG}/{name}"))
 

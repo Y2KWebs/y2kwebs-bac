@@ -25,4 +25,6 @@ El empaquetador usa una lista explícita; rechaza rutas inseguras, symlinks y pa
 
 La integración permite añadir una política de comercio mediante `y2kwebs_bac_can_start_payment`: recibe `true` y un `WC_Order`; devuelve `true` para continuar o un `WP_Error` para impedir el intento antes del HTTP. No modifica validaciones bancarias. La acción `y2kwebs_bac_callback_rejected` recibe un `WP_Error` genérico sin datos bancarios.
 
+Registre esa política con **dos argumentos aceptados**: `add_filter( 'y2kwebs_bac_can_start_payment', $callback, 10, 2 )`. El valor predeterminado de WordPress es uno; omitir el último parámetro provoca un error si el callback exige el pedido.
+
 Extraiga el ZIP en un directorio descartable y móntelo sobre la ruta del plugin local para ejecutar `tests/release-smoke.php` y Plugin Check. Monte el smoke fuera de la carpeta distribuida. Ejecute `wp --require=/var/www/html/wp-content/plugins/plugin-check/cli.php plugin check y2kwebs-bac --format=csv` sin omitir categorías. La CI utiliza el ZIP extraído, bloquea HTTP bancario y rechaza errores y avisos.

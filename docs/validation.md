@@ -1,6 +1,6 @@
 # Validación de 1.0.0
 
-Estado: candidato 1.0.0 instalado en la demo para una prueba bancaria manual; sin release pública ni solicitud a WordPress.org. Registro del 31 de octubre de 2026.
+Estado: candidato 1.0.0 instalado en la demo para una prueba bancaria manual; sin release pública ni solicitud a WordPress.org. Registro actualizado el 1 de noviembre de 2026.
 
 El flujo bancario parte de una implementación mantenida con experiencia operativa previa. Ese antecedente no acredita pruebas de todas las combinaciones del paquete público.
 
@@ -16,7 +16,9 @@ El flujo bancario parte de una implementación mantenida con experiencia operati
 
 Los flujos automatizados cubren selección CRC/USD, decimales, Y/A/U/N/R, correlación manipulada, tokens alterados, concurrencia, duplicados, caducidad, rechazo financiero y resultados inciertos. El transporte bancario se simula. Las capturas públicas contienen exclusivamente datos ficticios.
 
-El navegador local completó un pedido invitado desde Checkout Blocks, desafío simulado y confirmación del pedido. Se verificaron los campos del checkout clásico y los ajustes. La finalización del clásico como usuario registrado queda pendiente de repetir: el navegador automatizado no produjo navegación al enviar el formulario. El intento de viewport móvil tampoco cambió el ancho efectivo; no se declara verificación a 390 px.
+La CI del commit inicial superó sus cinco trabajos: sintaxis con PHP 7.4/8.2/8.4, las matrices mínima y moderna (esta última con WordPress 7.1.4 y WooCommerce 11.2.1), ambos almacenamientos, callback HTTP, paquete extraído y Plugin Check. El empaquetado fija además los metadatos de plataforma del ZIP para generar el mismo archivo en Windows y Linux. Se comprobó igualdad byte a byte con el artefacto descargado de esa ejecución. La comprobación local de convivencia registró BAC, LAFISE y la pasarela de referencia con identificadores independientes; el callback HTTP continuó funcionando.
+
+El navegador local completó un pedido invitado desde Checkout Blocks y un pedido registrado desde el checkout clásico, en ambos casos pasando por el desafío simulado hasta la confirmación. El clásico se verificó también en vista móvil de 375–390 px, sin desbordamiento horizontal. Las capturas y los pedidos contienen únicamente datos ficticios; no son pruebas bancarias reales.
 
 La revisión detectó y corrigió pérdida de entidades HTML al anidar el contenido bancario en `srcdoc`; una regresión comprueba que se conserva byte a byte. El callback se registra desde el arranque, independiente de una sesión de checkout.
 
@@ -26,6 +28,8 @@ La demo usa WordPress 7.1.4, WooCommerce 11.2.1, PHP 8.3.36 y HPOS. Se verificó
 
 Por decisión del mantenedor, staging queda pendiente. Se configura una prueba productiva privada, visible solo para administradores, con una política externa al plugin distribuido: máximo CRC 100 o USD 1 por pedido y reservas acumuladas de CRC 500 o USD 5. Las reservas no se liberan automáticamente tras rechazos; el límite es conservador. Todavía no se han ejecutado cobros productivos con el candidato.
 
-Faltan aprobación/rechazo reales, desafío bancario, revisión móvil efectiva, cierre del checkout clásico registrado y conciliación. No publicar una release estable ni enviar al directorio hasta resolver y documentar estos puntos. Credenciales, respaldo y detalles operativos permanecen fuera de la distribución pública.
+La primera prueba de la demo se detuvo antes de enviar una solicitud bancaria: la política privada estaba registrada con un argumento y exigía dos. Se reprodujo y corrigió fuera del paquete público. La política corregida superó 24 comprobaciones locales de permisos, importes, presupuesto, reintentos y pedidos sin guardar; el preflight del servidor confirmó el registro con dos argumentos y cero HTTP bancarios. La regresión pública comprueba también la entrega del pedido al filtro; la batería actual contiene 71 aserciones de flujos y seguridad.
+
+Queda pendiente cerrar el piloto bancario: aprobación/rechazo reales, desafío del emisor, conciliación y cobertura de las monedas/marcas habilitadas. No publicar una release estable ni enviar al directorio hasta resolver y documentar estos puntos. Credenciales, respaldo y detalles operativos permanecen fuera de la distribución pública.
 
 No se presentan simulaciones como cobros reales ni una prueba en una moneda como cobertura de otra.

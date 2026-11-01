@@ -113,8 +113,11 @@ try {
 	}
 	$mode = 'approve'; list( $order, $query ) = $start();
 	$order->update_meta_data( '_y2kwebs_bac_status', 'start_failed' ); $order->save();
-	$deny = static function () { return new WP_Error( 'pilot_limit', 'Synthetic merchant policy.' ); };
-	add_filter( 'y2kwebs_bac_can_start_payment', $deny ); $count = count( $calls );
+	$deny = static function ( $allowed, $candidate ) use ( &$assert, $order ) {
+		$assert( true === $allowed && $candidate instanceof WC_Order && $candidate->get_id() === $order->get_id(), 'Merchant policy receives both the decision and the validated order.' );
+		return new WP_Error( 'pilot_limit', 'Synthetic merchant policy.' );
+	};
+	add_filter( 'y2kwebs_bac_can_start_payment', $deny, 10, 2 ); $count = count( $calls );
 	$assert( 'failure' === $gateway->process_payment( $order->get_id() )['result'] && count( $calls ) === $count, 'Merchant policy cannot start an unauthorized request.' );
 	remove_filter( 'y2kwebs_bac_can_start_payment', $deny );
 	$mode = 'decline'; list( $order, $query ) = $start(); $gateway->process_callback( $query, $post() );
