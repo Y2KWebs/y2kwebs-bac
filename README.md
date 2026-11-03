@@ -2,9 +2,9 @@
 
 Plugin independiente, gratuito y de código abierto para aceptar pagos con tarjeta de **BAC Costa Rica en WooCommerce**, mediante **PowerTranz/FAC SPI 3DS**, desarrollado por [Y2KWebs](https://y2kwebs.com/). Sin registro obligatorio, suscripción, telemetría ni anuncios en el checkout.
 
-[Código y releases](https://github.com/Y2KWebs/y2kwebs-bac/releases) · [Instalación y soporte profesional](https://y2kwebs.com/) · [Reportar un problema](https://github.com/Y2KWebs/y2kwebs-bac/issues/new/choose)
+[Versión 1.0.0 y descargas](https://github.com/Y2KWebs/y2kwebs-bac/releases/tag/v1.0.0) · [Instalación y soporte profesional](https://y2kwebs.com/) · [Reportar un problema](https://github.com/Y2KWebs/y2kwebs-bac/issues/new/choose)
 
-**Versión 1.0.0 — candidato en revisión.** Se comprobaron pagos reales Visa y Mastercard, cada una en USD y CRC, y el mantenedor verificó las cuatro aprobaciones también en el portal bancario. Las pruebas automatizadas utilizan un banco simulado. Staging sigue pendiente y el envío a WordPress.org está aplazado; consulta los [resultados y limitaciones](docs/validation.md). Es una integración independiente, no un plugin oficial de BAC, PowerTranz o WooCommerce ni una afirmación de respaldo del banco.
+**Versión 1.0.0 — primera edición pública.** Se comprobaron pagos reales Visa y Mastercard, cada una en USD y CRC, y el mantenedor verificó las cuatro aprobaciones también en el portal bancario. Las pruebas automatizadas utilizan un banco simulado. Staging sigue pendiente y el envío a WordPress.org está aplazado; consulta los [resultados y limitaciones](docs/validation.md). Es una integración independiente, no un plugin oficial de BAC, PowerTranz o WooCommerce ni una afirmación de respaldo del banco.
 
 ## Funcionalidades
 
@@ -19,22 +19,18 @@ Plugin independiente, gratuito y de código abierto para aceptar pagos con tarje
 
 ## Así se integra
 
-Formulario de tarjeta en el checkout de bloques de WooCommerce:
+Checkout de WooCommerce con la pasarela BAC:
 
-![Formulario BAC en un checkout local con datos ficticios](docs/images/blocks.jpg)
+![Checkout de BAC en la tienda demo del mantenedor](docs/images/checkout.png)
 
-Configuración del comercio desde WooCommerce, con cuentas independientes para CRC y USD:
-
-![Ajustes BAC con credenciales ficticias y contraseñas sin mostrar](docs/images/settings.jpg)
-
-Estas capturas proceden de un entorno local con banco simulado y datos ficticios. El aspecto general depende del tema y de la configuración de cada tienda.
+Captura facilitada por el mantenedor para el README. Refleja los ajustes personalizados de su tienda demo; el aspecto depende del tema y de la configuración de cada comercio.
 
 ## Requisitos e instalación
 
 Requisitos mínimos: WordPress 6.9, WooCommerce 9.0, PHP 7.4, OpenSSL con AES-256-GCM, HTTPS y MySQL/MariaDB con `GET_LOCK`. Las versiones efectivamente verificadas están en [validación](docs/validation.md); los mínimos no implican que se hayan probado todas las combinaciones posteriores.
 
 1. Instala WooCommerce y configura HTTPS, enlaces permanentes y la moneda de la tienda: CRC o USD.
-2. Utiliza el ZIP instalable **`y2kwebs-bac-1.0.0.zip`** preparado por el proyecto o adjunto a la release correspondiente cuando esté publicada. El ZIP de código fuente generado por GitHub no es el paquete de instalación verificado.
+2. Descarga el ZIP instalable **`y2kwebs-bac-1.0.0.zip`** desde la [release 1.0.0](https://github.com/Y2KWebs/y2kwebs-bac/releases/tag/v1.0.0). El ZIP de código fuente generado por GitHub no es el paquete de instalación verificado.
 3. Sube el paquete desde **Plugins → Añadir plugin → Subir plugin** y actívalo.
 4. Abre **WooCommerce → Ajustes → Pagos → BAC — Y2KWebs** e introduce **PowerTranz ID** y **Contraseña** de la cuenta CRC, USD o ambas, según tu contrato bancario.
 5. Selecciona el entorno correspondiente a esas credenciales y guarda. Las contraseñas se cifran; dejar sus campos vacíos conserva los valores guardados. No se necesitan archivos privados de configuración.

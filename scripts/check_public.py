@@ -29,9 +29,11 @@ def check(root=ROOT):
         try:
             content = path.read_text(encoding="utf-8-sig")
         except UnicodeDecodeError:
-            # Only the two deliberately captured, manually reviewed synthetic screenshots are public.
+            # Only explicitly selected and manually reviewed screenshots are public.
             data = path.read_bytes()
-            if name not in IMAGES or not data.startswith(b"\xff\xd8\xff") or not data.endswith(b"\xff\xd9") or len(data) > 2_000_000:
+            jpeg = data.startswith(b"\xff\xd8\xff") and data.endswith(b"\xff\xd9")
+            png = data.startswith(b"\x89PNG\r\n\x1a\n") and data.endswith(b"\x00\x00\x00\x00IEND\xaeB`\x82")
+            if name not in IMAGES or not (jpeg or png) or len(data) > 2_000_000:
                 errors.append(f"{name}: binary file requires explicit manual review")
                 continue
             content = data.decode("utf-8", errors="ignore")

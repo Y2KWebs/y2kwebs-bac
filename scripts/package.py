@@ -7,7 +7,8 @@ import zipfile
 ROOT = Path(__file__).resolve().parent.parent
 VERSION = "1.0.0"
 SLUG = "y2kwebs-bac"
-IMAGES = frozenset(f"docs/images/{name}.jpg" for name in ("checkout", "settings", "blocks"))
+SCREENSHOTS = ("docs/images/checkout.png", "docs/images/blocks.jpg")
+IMAGES = frozenset(SCREENSHOTS)
 FILES = (
     "y2kwebs-bac.php", "index.php", "uninstall.php", "LICENSE", "readme.txt", "README.md", "SECURITY.md", "CONTRIBUTING.md",
     "includes/class-powertranz-api-client.php", "includes/class-powertranz-authentication-policy.php",

@@ -89,9 +89,8 @@ Deactivation leaves order records and settings available. Uninstall deletes this
 
 == Screenshots ==
 
-1. Classic checkout with fictitious demo data.
-2. Gateway configuration using fictitious merchant credentials.
-3. Checkout Blocks with fictitious demo data.
+1. Classic checkout screenshot supplied by the maintainer from their demo store.
+2. Checkout Blocks with fictitious demo data.
 
 == Changelog ==
 

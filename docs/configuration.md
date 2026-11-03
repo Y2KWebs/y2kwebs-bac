@@ -15,7 +15,7 @@ Las contraseñas CRC y USD se guardan cifradas mediante AES-256-GCM en una opci�
 
 **Eliminar contraseñas guardadas** borra ambos secretos al guardar y desactiva BAC. Los identificadores del comercio se conservan. Para cambiar de comercio, sustituye también esos identificadores. No cambies de cuenta o entorno mientras haya intentos activos o resultados pendientes de conciliación.
 
-El candidato migra automáticamente sus propios ajustes anteriores al almacenamiento cifrado, sin cambiar las credenciales. No importa datos de otra pasarela. El cifrado utiliza los salts de autenticación de WordPress: si se sustituyen, hay que eliminar las contraseñas guardadas y volver a introducirlas. Conserva copias privadas de seguridad de la instalación y no publiques sus opciones o archivos de configuración.
+El plugin migra automáticamente sus propios ajustes anteriores al almacenamiento cifrado, sin cambiar las credenciales. No importa datos de otra pasarela. El cifrado utiliza los salts de autenticación de WordPress: si se sustituyen, hay que eliminar las contraseñas guardadas y volver a introducirlas. Conserva copias privadas de seguridad de la instalación y no publiques sus opciones o archivos de configuración.
 
 ## Servidor y autenticación 3DS
 

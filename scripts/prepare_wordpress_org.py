@@ -2,7 +2,7 @@
 import hashlib
 import json
 from pathlib import Path
-from package import ROOT, FILES, IMAGES, SLUG, VERSION, package
+from package import ROOT, FILES, SCREENSHOTS, SLUG, VERSION, package
 
 
 def prepare(root=ROOT):
@@ -14,8 +14,8 @@ def prepare(root=ROOT):
     for prefix in ("svn/trunk", f"svn/tags/{VERSION}"):
         for name in FILES:
             entries[f"{prefix}/{name}"] = (root / name).read_bytes()
-    for number, name in enumerate(("checkout", "settings", "blocks"), 1):
-        entries[f"svn/assets/screenshot-{number}.jpg"] = (root / f"docs/images/{name}.jpg").read_bytes()
+    for number, name in enumerate(SCREENSHOTS, 1):
+        entries[f"svn/assets/screenshot-{number}{Path(name).suffix}"] = (root / name).read_bytes()
     expected.update(entries)
     if out.is_symlink() or (out.exists() and not out.is_dir()):
         raise ValueError("Unsafe preparation directory")
