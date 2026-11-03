@@ -205,9 +205,21 @@ try {
 	$order->update_meta_data( '_y2kwebs_bac_redirect_data', $stored_redirect_data );
 	$order->save();
 
-	$stored_meta = wp_json_encode( $order->get_meta_data() );
+	$stored_values = array();
+	foreach ( $order->get_meta_data() as $metadata ) {
+		$data = $metadata->get_data();
+		$stored_values[ $data['key'] ] = $data['value'];
+	}
+	$stored_meta = wp_json_encode( $stored_values );
 	powertranz_test_assert( false === strpos( $stored_meta, '4012000000020006' ), 'PAN must never be persisted in order metadata.' );
-	powertranz_test_assert( false === strpos( $stored_meta, '323' ), 'CVV must never be persisted in order metadata.' );
+	// A record ID, order reference or random UUID may contain these three digits.
+	$cvv_persisted = false;
+	array_walk_recursive( $stored_values, static function ( $value, $key ) use ( &$cvv_persisted ) {
+		if ( '323' === (string) $value || preg_match( '/^(?:card[_-]?)?(?:cvv|cvc|pan)$/i', (string) $key ) ) {
+			$cvv_persisted = true;
+		}
+	} );
+	powertranz_test_assert( ! $cvv_persisted, 'CVV must never be persisted in order metadata.' );
 
 	$sale_request = $captured_requests[0];
 	$sale_payload = json_decode( $sale_request['args']['body'], true );
