@@ -16,5 +16,5 @@ $assert( false !== strpos( $html, 'y2kwebs_bac_card_pan' ), 'Classic field ident
 $header = get_file_data( Y2KWEBS_BAC_FILE, array( 'domain' => 'Text Domain', 'requires' => 'Requires Plugins', 'update' => 'Update URI' ) );
 $assert( 'y2kwebs-bac' === $header['domain'] && 'woocommerce' === $header['requires'] && '' === $header['update'], 'WordPress.org header identity.' );
 $assert( class_exists( 'Y2KWEBS_BAC_Blocks_Support' ), 'Blocks integration loaded.' );
-foreach ( array( 'checkout.png', 'blocks.jpg' ) as $name ) { $assert( is_file( Y2KWEBS_BAC_PATH . 'docs/images/' . $name ), 'Reviewed screenshot exists.' ); }
+foreach ( array( 'settings.jpg', 'blocks.jpg' ) as $name ) { $assert( is_file( Y2KWEBS_BAC_PATH . 'docs/images/' . $name ), 'Reviewed screenshot exists.' ); }
 echo "PASS: $checks extracted-release assertions; external HTTP blocked.\n";

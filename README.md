@@ -4,7 +4,9 @@ Plugin independiente, gratuito y de código abierto para aceptar pagos con tarje
 
 [Versión 1.0.0 y descargas](https://github.com/Y2KWebs/y2kwebs-bac/releases/tag/v1.0.0) · [Instalación y soporte profesional](https://y2kwebs.com/) · [Reportar un problema](https://github.com/Y2KWebs/y2kwebs-bac/issues/new/choose)
 
-**Versión 1.0.0 — primera edición pública.** Se comprobaron pagos reales Visa y Mastercard, cada una en USD y CRC, y el mantenedor verificó las cuatro aprobaciones también en el portal bancario. Las pruebas automatizadas utilizan un banco simulado. Staging sigue pendiente y el envío a WordPress.org está aplazado; consulta los [resultados y limitaciones](docs/validation.md). Es una integración independiente, no un plugin oficial de BAC, PowerTranz o WooCommerce ni una afirmación de respaldo del banco.
+**Versión 1.0.0 — primera edición pública.** Se comprobaron pagos reales Visa y Mastercard, cada una en USD y CRC, y el mantenedor verificó las cuatro aprobaciones también en el portal bancario. Las pruebas automatizadas utilizan un banco simulado. Staging sigue pendiente; se está preparando el envío a WordPress.org, todavía sin solicitud presentada. Consulta los [resultados y limitaciones](docs/validation.md). Es una integración independiente, no un plugin oficial de BAC, PowerTranz o WooCommerce ni una afirmación de respaldo del banco.
+
+La interfaz de la pasarela y las guías están en **español**, sin instalar traducciones. El `readme.txt` se mantiene en inglés por requisito de WordPress.org. La interfaz inglesa y las traducciones oficiales del directorio se posponen; el idioma de WordPress y WooCommerce se configura por separado.
 
 ## Funcionalidades
 
@@ -19,11 +21,11 @@ Plugin independiente, gratuito y de código abierto para aceptar pagos con tarje
 
 ## Así se integra
 
-Checkout de WooCommerce con la pasarela BAC:
+Configuración de BAC desde el administrador de WooCommerce:
 
-![Checkout de BAC en la tienda demo del mantenedor](docs/images/checkout.png)
+![Ajustes BAC con credenciales ficticias y contraseñas sin mostrar](docs/images/settings.jpg)
 
-Captura facilitada por el mantenedor para el README. Refleja los ajustes personalizados de su tienda demo; el aspecto depende del tema y de la configuración de cada comercio.
+Captura del entorno local con cuentas ficticias. Las contraseñas guardadas no se muestran en el formulario.
 
 ## Requisitos e instalación
 
@@ -55,7 +57,7 @@ Si un resultado financiero es incierto, **no repitas el cobro ni borres metadato
 - [Resultados de validación y pendientes](docs/validation.md)
 - [Desarrollo y pruebas locales](docs/development.md)
 - [Preparación y comprobación de releases](docs/releasing.md)
-- [Preparación de WordPress.org: envío aplazado](docs/wordpress-org.md)
+- [Preparación y envío a WordPress.org](docs/wordpress-org.md)
 - [Seguridad y revisión de contenido público](SECURITY.md)
 - [Cómo contribuir](CONTRIBUTING.md)
 

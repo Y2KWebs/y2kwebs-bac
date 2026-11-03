@@ -16,6 +16,8 @@ Y2KWebs Gateway for BAC connects WooCommerce to the PowerTranz/FAC SPI payment s
 
 The plugin is free and open source. You need your own merchant agreement and compatible PowerTranz SPI credentials. Bank fees and payment-service conditions are separate. No Y2KWebs account, subscription or paid support is required. Optional installation and professional support are available from [Y2KWebs](https://y2kwebs.com/).
 
+The gateway interface, checkout messages and user documentation are currently in Spanish. This English directory readme is provided for WordPress.org review. An English interface and official language packs are not included in this release.
+
 This is an independent integration. It is not an official plugin from BAC, PowerTranz or WooCommerce and does not imply their endorsement. All trademarks belong to their respective owners.
 
 Features:
@@ -30,6 +32,8 @@ Features:
 * Credentials entered in WooCommerce with encrypted, write-only password storage. Editing wp-config.php is optional.
 
 Only one-time sales are supported. Automatic refunds, recurring payments, stored cards, installments and currency conversion are not included. Compatibility with other countries or every BAC payment product is not claimed.
+
+Requirements: WooCommerce 9.0 or later, HTTPS, PHP OpenSSL with AES-256-GCM and MySQL/MariaDB with GET_LOCK support, in addition to the WordPress/PHP versions listed above. Live Visa and Mastercard approvals have been verified in both CRC and USD. Automated tests use a simulated bank; provider staging validation remains pending. This does not establish support for every card brand or merchant account.
 
 = External service and privacy =
 
@@ -58,6 +62,10 @@ PAN, CVV and SPI tokens are not persisted by this plugin. SPI direct transmits c
 7. Configure your own production credentials and open customer visibility only when ready.
 
 == Frequently Asked Questions ==
+
+= What language does the plugin use? =
+
+The gateway settings, checkout fields, payment messages and user guides are in Spanish. The directory readme is in English as required by WordPress.org. No translation setup is needed to use the Spanish interface. WooCommerce and WordPress keep their own language settings. Official directory translations and an English gateway interface are deferred.
 
 = Does this work with any BAC merchant account? =
 
@@ -89,7 +97,7 @@ Deactivation leaves order records and settings available. Uninstall deletes this
 
 == Screenshots ==
 
-1. Classic checkout screenshot supplied by the maintainer from their demo store.
+1. Classic checkout in Spanish, supplied by the maintainer from their demo store. Store-specific titles and styling are configurable.
 2. Checkout Blocks with fictitious demo data.
 
 == Changelog ==
