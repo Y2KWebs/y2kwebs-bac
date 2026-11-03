@@ -248,6 +248,10 @@ final class Y2KWEBS_BAC_Gateway extends WC_Payment_Gateway {
 				return array( 'result' => 'failure' );
 			}
 
+			// Current metadata describes only this attempt. Earlier results remain in order notes.
+			foreach ( array( 'authentication_status', 'iso_response_code', 'gateway_response_code', 'response_message', 'three_ds_response_code', 'eci', 'protocol_version', 'fingerprint_indicator', 'authentication_status_reason', 'transaction_status_reason', 'cardholder_info', 'authorization_code', 'rrn', 'redirect_data' ) as $meta_key ) {
+				$order->delete_meta_data( self::META_PREFIX . $meta_key );
+			}
 			$order->update_meta_data( self::META_PREFIX . 'state_hash', wp_hash_password( $state ) );
 			$order->update_meta_data( self::META_PREFIX . 'transaction_id', $transaction_id );
 			$order->update_meta_data( self::META_PREFIX . 'order_reference', $order_reference );

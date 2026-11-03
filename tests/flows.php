@@ -38,6 +38,7 @@ $transport = static function ( $preempt, $args, $url ) use ( &$calls, &$expected
 		$body['IsoResponseCode'] = '00';
 		$body['AuthorizationCode'] = 'TEST';
 		if ( 'decline' === $mode ) { $body['Approved'] = false; $body['IsoResponseCode'] = '05'; }
+		if ( 'issuer-decline' === $mode ) { $body['Approved'] = false; $body['IsoResponseCode'] = '61'; $body['ResponseMessage'] = 'Issuer Decline (Refer to Issuer)'; }
 		if ( 'false-string' === $mode ) { $body['Approved'] = 'false'; }
 		if ( 'mismatch' === $mode ) { $body['TotalAmount'] = 999; }
 		if ( 'invalid-json' === $mode ) { return array( 'headers' => array(), 'body' => '{', 'response' => array( 'code' => 200 ), 'cookies' => array() ); }
@@ -122,6 +123,22 @@ try {
 	remove_filter( 'y2kwebs_bac_can_start_payment', $deny );
 	$mode = 'decline'; list( $order, $query ) = $start(); $gateway->process_callback( $query, $post() );
 	$assert( 'failed' === wc_get_order( $order->get_id() )->get_status(), 'Correlated definitive decline fails the order.' );
+	$mode = 'issuer-decline'; list( $order, $query ) = $start(); $declined_post = $post();
+	$gateway->process_callback( $query, $declined_post );
+	$declined = wc_get_order( $order->get_id() );
+	$assert( ! $declined->is_paid() && '61' === $declined->get_meta( '_y2kwebs_bac_iso_response_code', true ) && 'Issuer Decline (Refer to Issuer)' === $declined->get_meta( '_y2kwebs_bac_response_message', true ), 'Issuer decline is retained for the failed attempt.' );
+	$mode = 'approve';
+	$assert( 'success' === $gateway->process_payment( $order->get_id() )['result'], 'A definitive decline permits a new validated attempt.' );
+	$retry = wc_get_order( $order->get_id() );
+	$assert( '' === $retry->get_meta( '_y2kwebs_bac_iso_response_code', true ) && '' === $retry->get_meta( '_y2kwebs_bac_response_message', true ), 'New attempt cannot retain the previous decline diagnostics.' );
+	$count = count( $calls );
+	$assert( is_wp_error( $gateway->process_callback( $query, $declined_post ) ) && count( $calls ) === $count, 'The old callback cannot complete the new attempt.' );
+	parse_str( wp_parse_url( $expected['callback'], PHP_URL_QUERY ), $retry_query );
+	$gateway->process_callback( $retry_query, $post() );
+	$approved_retry = wc_get_order( $order->get_id() );
+	$assert( $approved_retry->is_paid() && '00' === $approved_retry->get_meta( '_y2kwebs_bac_iso_response_code', true ) && '' === $approved_retry->get_meta( '_y2kwebs_bac_response_message', true ), 'Approval after decline has a consistent current result.' );
+	$notes = wc_get_order_notes( array( 'order_id' => $order->get_id() ) );
+	$assert( (bool) array_filter( $notes, static function ( $note ) { return false !== strpos( $note->content, 'ISO: 61' ); } ), 'Historical decline remains in order notes.' );
 	$mode = 'concurrent'; list( $order, $query ) = $start(); $data = $post();
 	$nested = static function () use ( &$gateway, $query, $data, &$assert, $order ) {
 		$result = $gateway->process_callback( $query, $data );
