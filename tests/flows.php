@@ -9,6 +9,7 @@ $assert = static function ( $ok, $message ) use ( &$checks ) {
 	++$checks;
 };
 $old_settings = get_option( 'woocommerce_y2kwebs_bac_settings', null );
+$old_secrets = get_option( Y2KWEBS_BAC_Secrets::OPTION, null );
 $old_user = get_current_user_id();
 $old_post = $_POST;
 $orders = array();
@@ -153,5 +154,6 @@ try {
 	$_POST = $old_post; wp_set_current_user( $old_user );
 	foreach ( $orders as $order ) { wc_get_order( $order->get_id() )->delete( true ); }
 	if ( null === $old_settings ) { delete_option( 'woocommerce_y2kwebs_bac_settings' ); } else { update_option( 'woocommerce_y2kwebs_bac_settings', $old_settings, false ); }
+	if ( null === $old_secrets ) { delete_option( Y2KWEBS_BAC_Secrets::OPTION ); } else { update_option( Y2KWEBS_BAC_Secrets::OPTION, $old_secrets, false ); }
 	wc_clear_notices();
 }

@@ -14,6 +14,7 @@ function powertranz_test_assert( $condition, $message ) {
 
 $option_name                 = 'woocommerce_y2kwebs_bac_settings';
 $previous_settings           = get_option( $option_name, null );
+$previous_secrets            = get_option( Y2KWEBS_BAC_Secrets::OPTION, null );
 $previous_post               = $_POST;
 $previous_user_id            = get_current_user_id();
 $previous_precision          = ini_get( 'serialize_precision' );
@@ -395,5 +396,9 @@ try {
 	} else {
 		update_option( $option_name, $previous_settings, false );
 	}
+	if ( null === $previous_secrets ) { delete_option( Y2KWEBS_BAC_Secrets::OPTION ); } else { update_option( Y2KWEBS_BAC_Secrets::OPTION, $previous_secrets, false ); }
 	wc_clear_notices();
 }
+
+// Keep the credential checks in the integration suite used by both CI matrices.
+require dirname( __DIR__ ) . '/settings.php';

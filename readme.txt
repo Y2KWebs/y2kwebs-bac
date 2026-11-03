@@ -27,6 +27,7 @@ Features:
 * Protection against concurrent or repeated payment requests.
 * Uncertain financial results held for manual bank reconciliation.
 * Optional diagnostics with sensitive fields excluded.
+* Credentials entered in WooCommerce with encrypted, write-only password storage. Editing wp-config.php is optional.
 
 Only one-time sales are supported. Automatic refunds, recurring payments, stored cards, installments and currency conversion are not included. Compatibility with other countries or every BAC payment product is not claimed.
 
@@ -61,6 +62,10 @@ PAN, CVV and SPI tokens are not persisted by this plugin. SPI direct transmits c
 = Does this work with any BAC merchant account? =
 
 No. It requires a BAC Costa Rica account provisioned for the compatible PowerTranz/FAC SPI service. Ask the bank which integration and currencies your account supports.
+
+= Do I have to edit wp-config.php? =
+
+No. Enter the CRC/USD merchant identifiers and passwords in WooCommerce > Settings > Payments > BAC — Y2KWebs. Passwords are encrypted using AES-256-GCM in a separate non-autoloaded option. Forms and WooCommerce API responses never return them. Blank password fields keep saved values; explicit deletion removes both passwords and disables the gateway. Changing WordPress authentication salts requires entering the passwords again. Constants and environment variables remain optional alternatives for managed installations.
 
 = Which authentication results are allowed? =
 

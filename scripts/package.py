@@ -11,11 +11,13 @@ IMAGES = frozenset(f"docs/images/{name}.jpg" for name in ("checkout", "settings"
 FILES = (
     "y2kwebs-bac.php", "index.php", "uninstall.php", "LICENSE", "readme.txt", "README.md", "SECURITY.md", "CONTRIBUTING.md",
     "includes/class-powertranz-api-client.php", "includes/class-powertranz-authentication-policy.php",
+    "includes/class-powertranz-secrets.php", "includes/class-powertranz-settings.php",
     "includes/class-powertranz-country-codes.php", "includes/class-powertranz-currency-config.php",
     "includes/class-powertranz-diagnostics.php", "includes/class-powertranz-gateway.php",
     "blocks/class-y2kwebs-bac-blocks-support.php", "templates/payment-fields.php",
     "assets/css/checkout.css", "assets/js/checkout.js", "assets/js/blocks.js",
     "docs/configuration.md", "docs/development.md", "docs/pilot.md", "docs/validation.md", "docs/wordpress-org.md",
+    "docs/architecture.md", "docs/releasing.md",
     *sorted(IMAGES),
 )
 SECRET_PATTERN = re.compile(

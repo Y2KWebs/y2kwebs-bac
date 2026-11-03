@@ -9,6 +9,7 @@ docker compose -f tests/compose.yml run --rm cli wp plugin install woocommerce -
 docker compose -f tests/compose.yml run --rm cli wp plugin activate y2kwebs-bac
 docker compose -f tests/compose.yml run --rm cli wp eval-file wp-content/plugins/y2kwebs-bac/tests/integration/smoke.php
 docker compose -f tests/compose.yml run --rm cli wp eval-file wp-content/plugins/y2kwebs-bac/tests/flows.php
+docker compose -f tests/compose.yml run --rm cli wp eval-file wp-content/plugins/y2kwebs-bac/tests/settings.php
 ```
 
 Las suites interceptan el transporte bancario con respuestas ficticias. Nunca ejecutarlas en una tienda remota. Repita con HPOS desactivado y activado mediante las herramientas de sincronización de WooCommerce. La matriz mínima usa WordPress 6.9, WooCommerce 9.0 y PHP 7.4; la matriz moderna usa las versiones documentadas en validación. `BAC_WP_IMAGE` y `BAC_CLI_IMAGE` permiten seleccionar las imágenes PHP.

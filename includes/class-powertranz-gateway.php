@@ -49,7 +49,7 @@ final class Y2KWEBS_BAC_Gateway extends WC_Payment_Gateway {
 	}
 
 	public function init_form_fields() {
-		$secret_description = __( 'Se recomienda definir este secreto mediante una constante de wp-config.php o una variable de entorno. El valor guardado aquí se usa sólo como alternativa.', 'y2kwebs-bac' );
+		$secret_description = __( 'Se guarda cifrada. Deje el campo vacío para conservar la contraseña guardada; escriba otra para sustituirla.', 'y2kwebs-bac' );
 
 		$this->form_fields = array(
 			'enabled'          => array(
@@ -99,22 +99,28 @@ final class Y2KWEBS_BAC_Gateway extends WC_Payment_Gateway {
 			'crc_id'           => array(
 				'title'       => __( 'PowerTranz ID — CRC', 'y2kwebs-bac' ),
 				'type'        => 'text',
-				'description' => $secret_description . ' Y2KWEBS_BAC_CRC_ID',
+				'description' => __( 'Identificador de la cuenta de colones facilitado por PowerTranz/BAC.', 'y2kwebs-bac' ),
 			),
 			'crc_password'     => array(
 				'title'       => __( 'Contraseña — CRC', 'y2kwebs-bac' ),
 				'type'        => 'password',
-				'description' => $secret_description . ' Y2KWEBS_BAC_CRC_PASSWORD',
+				'description' => $secret_description,
 			),
 			'usd_id'           => array(
 				'title'       => __( 'PowerTranz ID — USD', 'y2kwebs-bac' ),
 				'type'        => 'text',
-				'description' => $secret_description . ' Y2KWEBS_BAC_USD_ID',
+				'description' => __( 'Identificador de la cuenta de dólares facilitado por PowerTranz/BAC.', 'y2kwebs-bac' ),
 			),
 			'usd_password'     => array(
 				'title'       => __( 'Contraseña — USD', 'y2kwebs-bac' ),
 				'type'        => 'password',
-				'description' => $secret_description . ' Y2KWEBS_BAC_USD_PASSWORD',
+				'description' => $secret_description,
+			),
+			'clear_secrets'    => array(
+				'title' => __( 'Eliminar contraseñas guardadas', 'y2kwebs-bac' ),
+				'type' => 'checkbox',
+				'label' => __( 'Borrar las contraseñas CRC y USD al guardar y desactivar la pasarela.', 'y2kwebs-bac' ),
+				'default' => 'no',
 			),
 			'allow_auth_u'     => array(
 				'title'       => __( 'Autenticación no disponible', 'y2kwebs-bac' ),
@@ -131,6 +137,50 @@ final class Y2KWEBS_BAC_Gateway extends WC_Payment_Gateway {
 				'default'     => 'no',
 			),
 		);
+	}
+
+	public function init_settings() {
+		parent::init_settings();
+		// Passwords are write-only. Neither HTML nor WooCommerce's API may preload them.
+		$this->settings['crc_password'] = '';
+		$this->settings['usd_password'] = '';
+	}
+
+	public function generate_password_html( $key, $data ) {
+		$id = $this->get_field_key( $key );
+		$currency = 'crc_password' === $key ? 'CRC' : 'USD';
+		$config = new Y2KWEBS_BAC_Currency_Config( $this->settings );
+		$configured = null !== $config->account_for( $currency );
+		return '<tr valign="top"><th scope="row"><label for="' . esc_attr( $id ) . '">' . esc_html( $data['title'] )
+			. '</label></th><td><input class="input-text regular-input" type="password" autocomplete="new-password" id="'
+			. esc_attr( $id ) . '" name="' . esc_attr( $id ) . '" value="" placeholder="'
+			. esc_attr( $configured ? __( 'Guardada: deje vacío para conservar', 'y2kwebs-bac' ) : __( 'Cuenta sin configurar', 'y2kwebs-bac' ) )
+			. '"><p class="description">' . esc_html( $data['description'] ?? '' ) . '</p></td></tr>';
+	}
+
+	public function validate_password_field( $key, $value ) {
+		if ( null !== $value && ! is_string( $value ) ) {
+			throw new Exception( esc_html__( 'La contraseña no tiene un formato válido.', 'y2kwebs-bac' ) );
+		}
+		$value = is_string( $value ) ? wp_unslash( $value ) : '';
+		if ( ! Y2KWEBS_BAC_Secrets::valid( $value ) ) {
+			throw new Exception( esc_html__( 'La contraseña no tiene un formato válido.', 'y2kwebs-bac' ) );
+		}
+		return $value;
+	}
+
+	public function process_admin_options() {
+		// WooCommerce also checks this nonce before dispatching its settings-save action.
+		if ( ! current_user_can( 'manage_woocommerce' ) || ! isset( $_POST['_wpnonce'] ) || ! is_string( $_POST['_wpnonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) ), 'woocommerce-settings' ) ) {
+			$this->add_error( __( 'No se pudo autorizar el cambio de ajustes.', 'y2kwebs-bac' ) );
+			return false;
+		}
+		$result = parent::process_admin_options();
+		$this->init_settings();
+		if ( Y2KWEBS_BAC_Settings::has_error() ) {
+			$this->add_error( __( 'No se pudieron guardar las contraseñas cifradas. Los ajustes anteriores se conservan. Revise OpenSSL y la configuración de la instalación.', 'y2kwebs-bac' ) );
+		}
+		return $result;
 	}
 
 	public function is_available() {

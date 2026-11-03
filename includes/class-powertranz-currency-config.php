@@ -70,6 +70,9 @@ final class Y2KWEBS_BAC_Currency_Config {
 			return trim( (string) $environment_value );
 		}
 
+		if ( in_array( $setting_key, array( 'crc_password', 'usd_password' ), true ) ) {
+			return trim( Y2KWEBS_BAC_Secrets::get( $setting_key ) );
+		}
 		return isset( $this->settings[ $setting_key ] ) ? trim( (string) $this->settings[ $setting_key ] ) : '';
 	}
 }

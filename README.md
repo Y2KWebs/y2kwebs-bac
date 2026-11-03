@@ -1,37 +1,74 @@
 # Y2KWebs Gateway for BAC
 
-Free, open-source WooCommerce card payments for BAC Costa Rica merchants using PowerTranz/FAC SPI 3DS. Independent integration by [Y2KWebs](https://y2kwebs.com/); no endorsement by BAC, PowerTranz or WooCommerce is implied.
+Plugin independiente, gratuito y de código abierto para aceptar pagos con tarjeta de **BAC Costa Rica en WooCommerce**, mediante **PowerTranz/FAC SPI 3DS**, desarrollado por [Y2KWebs](https://y2kwebs.com/). Sin registro obligatorio, suscripción, telemetría ni anuncios en el checkout.
 
-## Features
+[Código y releases](https://github.com/Y2KWebs/y2kwebs-bac/releases) · [Instalación y soporte profesional](https://y2kwebs.com/) · [Reportar un problema](https://github.com/Y2KWebs/y2kwebs-bac/issues/new/choose)
 
-- Separate merchant credentials for CRC and USD; no currency conversion.
-- Classic checkout, Checkout Blocks and HPOS.
-- Correlated 3DS authentication and financial approval before completing an order.
-- Concurrent-request protection and manual review for uncertain financial results.
-- Optional redacted WooCommerce diagnostics.
+**Versión 1.0.0 — candidato en revisión.** Se comprobaron pagos reales Visa y Mastercard, cada una en USD y CRC, y el mantenedor verificó las cuatro aprobaciones también en el portal bancario. Las pruebas automatizadas utilizan un banco simulado. Staging sigue pendiente y el envío a WordPress.org está aplazado; consulta los [resultados y limitaciones](docs/validation.md). Es una integración independiente, no un plugin oficial de BAC, PowerTranz o WooCommerce ni una afirmación de respaldo del banco.
 
-The plugin is free and does not require a Y2KWebs account or subscription. Merchants need their own BAC/PowerTranz agreement and compatible SPI credentials. Bank fees are separate. Professional installation and support from Y2KWebs are optional.
+## Funcionalidades
 
-## Installation
+- Cuentas CRC y USD configurables desde **WooCommerce → Ajustes → Pagos → BAC — Y2KWebs**. Las contraseñas se guardan cifradas y no vuelven a mostrarse en formularios ni respuestas API. No hace falta editar `wp-config.php`.
+- Selección de la cuenta bancaria según la moneda del pedido, con importes de dos decimales y sin conversión automática.
+- Checkout clásico y de bloques, con autenticación SPI 3DS y presentación del desafío del emisor cuando corresponde.
+- Comprobación de transacción, referencia, importe, moneda y aprobación financiera antes de marcar el pedido como pagado.
+- Protección frente a solicitudes concurrentes o duplicadas. Los resultados financieros inciertos mantienen el pedido en espera para conciliación manual.
+- Compatibilidad con HPOS y almacenamiento clásico; diagnósticos opcionales con campos sensibles excluidos.
 
-Download the installable ZIP from [Releases](https://github.com/Y2KWebs/y2kwebs-bac/releases), upload it in WordPress, activate it and open **WooCommerce > Settings > Payments > BAC — Y2KWebs**. Start in staging with administrator-only visibility. See [configuration](docs/configuration.md).
+**Limitaciones:** admite ventas de contado. No incorpora devoluciones bancarias automáticas, suscripciones, tarjetas guardadas, cuotas ni consulta automática de estado bancario. La cobertura se limita a BAC Costa Rica mediante cuentas PowerTranz/FAC SPI compatibles; no se afirma compatibilidad con otros países, todos los productos BAC o todas las marcas. Consulta la [cobertura comprobada](docs/validation.md).
 
-Target requirements: WordPress 6.9+, WooCommerce 9.0+, PHP 7.4+, HTTPS and a MySQL/MariaDB database supporting connection locks. Exact verified versions and outstanding bank tests are recorded in [validation](docs/validation.md). A release candidate must pass the documented checks before public release.
+## Así se integra
 
-## Limits and payment data
+Formulario de tarjeta en el checkout de bloques de WooCommerce:
 
-This version supports one-time sales only. Automatic refunds, subscriptions, saved cards, installments, other currencies and other countries are not advertised. Refund through the bank and record it manually in WooCommerce.
+![Formulario BAC en un checkout local con datos ficticios](docs/images/blocks.jpg)
 
-SPI direct sends card data through the merchant server to PowerTranz in memory. The plugin does not persist PAN, CVV or SPI tokens. Review server, proxy and monitoring settings to prevent request-body logging. Confirm the applicable PCI DSS requirements with your acquiring bank.
+Configuración del comercio desde WooCommerce, con cuentas independientes para CRC y USD:
 
-Do not retry a payment marked uncertain. Reconcile it in the bank portal first; see [operation and testing](docs/pilot.md).
+![Ajustes BAC con credenciales ficticias y contraseñas sin mostrar](docs/images/settings.jpg)
 
-## Development and support
+Estas capturas proceden de un entorno local con banco simulado y datos ficticios. El aspecto general depende del tema y de la configuración de cada tienda.
 
-- [Local development and tests](docs/development.md)
-- [Validation evidence](docs/validation.md)
-- [Release and WordPress.org submission](docs/wordpress-org.md)
-- [Security reporting](SECURITY.md)
-- [Contributing](CONTRIBUTING.md)
+## Requisitos e instalación
 
-License: [GPL-2.0-or-later](LICENSE). Credit to JARS Costa Rica for the historical reference integration. This maintained implementation uses its own architecture and identifiers.
+Requisitos mínimos: WordPress 6.9, WooCommerce 9.0, PHP 7.4, OpenSSL con AES-256-GCM, HTTPS y MySQL/MariaDB con `GET_LOCK`. Las versiones efectivamente verificadas están en [validación](docs/validation.md); los mínimos no implican que se hayan probado todas las combinaciones posteriores.
+
+1. Instala WooCommerce y configura HTTPS, enlaces permanentes y la moneda de la tienda: CRC o USD.
+2. Utiliza el ZIP instalable **`y2kwebs-bac-1.0.0.zip`** preparado por el proyecto o adjunto a la release correspondiente cuando esté publicada. El ZIP de código fuente generado por GitHub no es el paquete de instalación verificado.
+3. Sube el paquete desde **Plugins → Añadir plugin → Subir plugin** y actívalo.
+4. Abre **WooCommerce → Ajustes → Pagos → BAC — Y2KWebs** e introduce **PowerTranz ID** y **Contraseña** de la cuenta CRC, USD o ambas, según tu contrato bancario.
+5. Selecciona el entorno correspondiente a esas credenciales y guarda. Las contraseñas se cifran; dejar sus campos vacíos conserva los valores guardados. No se necesitan archivos privados de configuración.
+6. Realiza una prueba controlada con visibilidad **Sólo administradores**. La instalación comienza desactivada y en staging. **Producción realiza cobros reales**, incluso si la pasarela solo es visible para administradores; esa visibilidad no impone un límite de importe.
+7. Habilita la pasarela para todos los clientes únicamente después de comprobar su configuración y los resultados. Sigue la [guía de operación](docs/pilot.md).
+
+Cada comercio necesita su propio contrato BAC/PowerTranz, las monedas y marcas habilitadas y credenciales SPI del entorno seleccionado. Las comisiones y condiciones bancarias son independientes del plugin. La [configuración detallada](docs/configuration.md) explica conservación, sustitución y eliminación de contraseñas, además de las alternativas opcionales para instalaciones administradas.
+
+## Datos de pago y resultados inciertos
+
+En SPI directo, el formulario envía los datos de tarjeta al servidor de la tienda mediante HTTPS y este los transmite a PowerTranz en memoria. El plugin no guarda PAN, CVV ni tokens SPI. Revisa con el adquirente los requisitos PCI DSS aplicables y evita capturar cuerpos HTTP en servidor, proxy, WAF o herramientas de diagnóstico. La [ficha del plugin](readme.txt) detalla el servicio externo y los datos transmitidos.
+
+Excluye checkout, pago de pedidos y `wc-api/y2kwebs_bac_callback` de caché. Permite el retorno POST bancario. La autenticación se correlaciona con el pedido y un estado aleatorio de un solo uso; una aprobación 3DS por sí sola no marca el pedido como pagado.
+
+Si un resultado financiero es incierto, **no repitas el cobro ni borres metadatos para reabrir el intento**. Comprueba primero la operación en el portal bancario. Las devoluciones se gestionan mediante el banco y se registran manualmente en WooCommerce. Consulta la [guía de operación y conciliación](docs/pilot.md).
+
+## Documentación y desarrollo
+
+- [Configuración desde WooCommerce](docs/configuration.md)
+- [Arquitectura y flujo de pago](docs/architecture.md)
+- [Pruebas bancarias controladas](docs/pilot.md)
+- [Resultados de validación y pendientes](docs/validation.md)
+- [Desarrollo y pruebas locales](docs/development.md)
+- [Preparación y comprobación de releases](docs/releasing.md)
+- [Preparación de WordPress.org: envío aplazado](docs/wordpress-org.md)
+- [Seguridad y revisión de contenido público](SECURITY.md)
+- [Cómo contribuir](CONTRIBUTING.md)
+
+El repositorio conserva pruebas y herramientas para que la comunidad pueda revisar y reproducir el comportamiento. El ZIP instalable incluye únicamente los archivos seleccionados del plugin y su documentación. Los ejemplos y fixtures son ficticios; las suites locales interceptan las solicitudes bancarias y no realizan cobros. No ejecutes fixtures en tiendas reales.
+
+## Soporte e instalación profesional
+
+[Y2KWebs ofrece instalación, configuración y soporte profesional para WooCommerce](https://y2kwebs.com/), mediante acuerdo separado. El plugin puede utilizarse gratuitamente sin contratar estos servicios, crear una cuenta Y2KWebs ni suscribirse. El soporte comunitario no tiene SLA.
+
+Para incidencias, indica versiones, pasos con datos ficticios y el código genérico del diagnóstico. Nunca publiques credenciales, tarjetas, CVV, cookies, respuestas bancarias completas ni URLs con tokens. Para vulnerabilidades, sigue [SECURITY.md](SECURITY.md).
+
+Licencia [GPL-2.0-or-later](LICENSE). Se conserva la atribución a JARS Costa Rica por la integración histórica de referencia. Las marcas BAC, PowerTranz/FAC y WooCommerce pertenecen a sus respectivos titulares.

@@ -40,6 +40,9 @@ add_action(
 			return;
 		}
 
+		require_once Y2KWEBS_BAC_PATH . 'includes/class-powertranz-secrets.php';
+		require_once Y2KWEBS_BAC_PATH . 'includes/class-powertranz-settings.php';
+		Y2KWEBS_BAC_Settings::boot();
 		require_once Y2KWEBS_BAC_PATH . 'includes/class-powertranz-currency-config.php';
 		require_once Y2KWEBS_BAC_PATH . 'includes/class-powertranz-country-codes.php';
 		require_once Y2KWEBS_BAC_PATH . 'includes/class-powertranz-authentication-policy.php';
