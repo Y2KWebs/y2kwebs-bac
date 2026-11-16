@@ -19,10 +19,13 @@ Las suites interceptan el transporte bancario con respuestas ficticias. Nunca ej
 ```text
 python scripts/check_public.py
 python -m unittest discover -s tests -p "test_*.py"
+node --test tests/scripts.test.js
 python scripts/prepare_wordpress_org.py
 ```
 
 El empaquetador usa una lista explícita; rechaza rutas inseguras, symlinks y patrones conocidos de secretos. Compruebe también manualmente el contenido de Git y del ZIP. El escáner no garantiza detectar todos los secretos posibles.
+
+El Compose de pruebas activa `WP_DEBUG`, `WP_DEBUG_LOG` y oculta errores al comprador. Para validar una instalación limpia, use un nombre de proyecto Compose nuevo, sin reutilizar los volúmenes de otra prueba. `tests/message-fixture.html` permite comprobar en navegador ventanas, orígenes, pedidos y destinos manipulados; utiliza el puerto local 8098 y queda fuera de la distribución. El banco simulado admite el ajuste local `y2kwebs_bac_local_bank_mode` con `challenge`, `immediate` y `decline`; no modifica ni se instala en tiendas remotas.
 
 La integración permite añadir una política de comercio mediante `y2kwebs_bac_can_start_payment`: recibe `true` y un `WC_Order`; devuelve `true` para continuar o un `WP_Error` para impedir el intento antes del HTTP. No modifica validaciones bancarias. La acción `y2kwebs_bac_callback_rejected` recibe un `WP_Error` genérico sin datos bancarios.
 

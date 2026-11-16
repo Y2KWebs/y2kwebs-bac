@@ -1,8 +1,34 @@
-# Validación de 1.0.0
+# Validación de BAC
 
-Estado: versión 1.0.0 publicada en GitHub, con aprobaciones reales Visa y Mastercard en USD y CRC confirmadas también en el portal bancario. Sesiones productivas cerradas y BAC desactivado en la demo. Staging sigue pendiente y se documenta como limitación. Se retoma la preparación para WordPress.org, sin solicitud enviada. Registro actualizado el 3 de noviembre de 2026.
+## Revisión 1.0.1 — 11 de noviembre de 2026
+
+El candidato corrige los dos bloques de JavaScript propio impresos directamente señalados por el revisor. El listener 3DS se encola en cabecera antes del iframe; el retorno independiente imprime solo su handle registrado y utiliza una CSP de scripts del mismo origen sin `unsafe-inline`. El HTML bancario y su codificación `srcdoc` se conservan.
+
+Se crearon instalaciones Docker con volúmenes nuevos y `WP_DEBUG`/`WP_DEBUG_LOG` activados: WordPress 6.9.4, WooCommerce 9.0.0 y PHP 7.4, y WordPress 7.1.4, WooCommerce 11.2.1 y PHP 8.2. Ambas matrices superaron el smoke de integración, las 25 aserciones de credenciales, los 78 flujos de pagos/seguridad y la comprobación HTTP de listener, callback, CSP y rechazo de duplicados/GET, con almacenamiento clásico y HPOS. Todos los HTTP bancarios se simularon.
+
+Las dos pruebas Node cubren el listener instalado antes de existir el iframe, ventanas y orígenes falsos, otros pedidos, URL externa/malformada y datos de callback. Las cinco pruebas Python comprueban el contenido, reproducibilidad, recursos externos, versiones y coincidencia SVN/ZIP.
+
+Chrome completó pedidos invitados desde checkout clásico y Blocks pasando por el desafío simulado. También confirmó retorno inmediato, rechazo 3DS y continuación mediante el enlace `noscript` del callback en un iframe con scripts deshabilitados. Una página de pruebas verificó en el navegador que ventanas, origen, pedido y destinos manipulados no redirigen, y que el mensaje válido sí lo hace.
+
+No se observaron errores JavaScript del plugin. Durante el envío desde Blocks se registró un aviso del detector de dependencias de WooCommerce sobre `wc.wcBlocksData`; la traza obtenida apunta a accesores anidados del detector, sin una llamada de BAC a ese global. Se registra como limitación observada, no se oculta ni se presenta la consola como libre de todos los avisos. WooCommerce 9.0 emite además un aviso PHP de carga temprana de traducciones incluso con BAC excluido del arranque. No se modifican dependencias de terceros para silenciarlos.
+
+El ZIP extraído superó las 12 comprobaciones de distribución en ambas matrices. Plugin Check 2.2.0 terminó sin errores ni avisos, sin excluir categorías. Se instaló además el ZIP desde el primer arranque de un tercer WordPress con volúmenes nuevos y depuración activada; activación y smoke superados. El registro de esa instalación contiene un aviso del dominio de traducciones de WooCommerce durante su activación, sin errores propios de BAC.
+
+Los resultados bancarios reales documentados debajo pertenecen a 1.0.0. En esta corrección no se realizaron nuevos cobros y staging sigue pendiente.
+
+## Antecedentes de 1.0.0
+
+Estado: versión 1.0.0 publicada en GitHub, con aprobaciones reales Visa y Mastercard en USD y CRC confirmadas también en el portal bancario. Sesiones productivas cerradas y BAC desactivado en la demo. Staging sigue pendiente y se documenta como limitación. Solicitud enviada a WordPress.org el 3 de noviembre de 2026; estado Awaiting Review y slug asignado `y2kwebs-bac`. Registro actualizado el 3 de noviembre de 2026.
 
 El flujo bancario parte de una implementación mantenida con experiencia operativa previa. Ese antecedente no acredita pruebas de todas las combinaciones del paquete público.
+
+## Candidato para WordPress.org
+
+El 3 de noviembre de 2026 se revisó el candidato con interfaz en español y `readme.txt` en inglés conforme al requisito del equipo de plugins. Las traducciones oficiales y la interfaz inglesa se posponen. Se prepararon ZIP, SHA-256, `trunk`, `tags/1.0.0`, capturas y nota para revisión. Posteriormente se presentó la solicitud desde la cuenta `y2kwebs`; figura como Awaiting Review y no está aprobada ni publicada en el directorio.
+
+Las cuatro pruebas Python de empaquetado y coincidencia SVN/ZIP superaron la comprobación. El ZIP extraído superó las diez aserciones de distribución con HTTP externo bloqueado y Plugin Check 2.1.0 en todas las categorías, sin errores ni avisos reportados, sobre WordPress 7.1, WooCommerce 11.2.1 y PHP 8.2 del entorno local.
+
+La comparación byte a byte con el ZIP descargado de la release pública `v1.0.0` confirmó que todos los archivos PHP, JavaScript y CSS permanecen idénticos. Cambian documentación y la captura del checkout, sustituida por la del administrador con cuentas ficticias. El SHA-256 del candidato difiere por esos cambios; la etiqueta y el ZIP publicados en GitHub se conservan. No se repitieron cobros reales ni se presenta staging como verificado.
 
 ## Pruebas locales
 
@@ -44,6 +70,6 @@ El mantenedor reportó posteriormente un desafío visible en una tarjeta Visa an
 
 La primera prueba de la demo se detuvo antes de enviar una solicitud bancaria: la política privada estaba registrada con un argumento y exigía dos. Se reprodujo y corrigió fuera del paquete público. La política corregida superó 24 comprobaciones locales de permisos, importes, presupuesto, reintentos y pedidos sin guardar; el preflight del servidor confirmó el registro con dos argumentos y cero HTTP bancarios. La regresión pública comprueba también la entrega del pedido al filtro; la batería actual contiene 78 aserciones de flujos y seguridad, incluidos los reintentos posteriores a ISO 61.
 
-La matriz productiva comprobada incluye Visa y Mastercard, cada una con aprobación en USD y CRC; se observaron también rechazos financieros y de autenticación. Staging sigue pendiente por decisión del mantenedor. La concordancia de aprobaciones en el portal no acredita liquidación posterior ni compatibilidad con otras marcas. La release de GitHub ya está publicada y se prepara el envío al directorio, manteniendo visible la limitación de staging y sin presentar todavía la solicitud. Credenciales, respaldo y detalles operativos permanecen fuera de la distribución pública.
+La matriz productiva comprobada incluye Visa y Mastercard, cada una con aprobación en USD y CRC; se observaron también rechazos financieros y de autenticación. Staging sigue pendiente por decisión del mantenedor. La concordancia de aprobaciones en el portal no acredita liquidación posterior ni compatibilidad con otras marcas. La release de GitHub ya está publicada y la solicitud al directorio está pendiente de revisión, manteniendo visible la limitación de staging. Credenciales, respaldo y detalles operativos permanecen fuera de la distribución pública.
 
 No se presentan simulaciones como cobros reales ni una prueba en una moneda como cobertura de otra.

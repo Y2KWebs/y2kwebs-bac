@@ -4,9 +4,11 @@ Plugin independiente, gratuito y de código abierto para aceptar pagos con tarje
 
 [Versión 1.0.0 y descargas](https://github.com/Y2KWebs/y2kwebs-bac/releases/tag/v1.0.0) · [Instalación y soporte profesional](https://y2kwebs.com/) · [Reportar un problema](https://github.com/Y2KWebs/y2kwebs-bac/issues/new/choose)
 
-**Versión 1.0.0 — primera edición pública.** Se comprobaron pagos reales Visa y Mastercard, cada una en USD y CRC, y el mantenedor verificó las cuatro aprobaciones también en el portal bancario. Las pruebas automatizadas utilizan un banco simulado. Staging sigue pendiente; se está preparando el envío a WordPress.org, todavía sin solicitud presentada. Consulta los [resultados y limitaciones](docs/validation.md). Es una integración independiente, no un plugin oficial de BAC, PowerTranz o WooCommerce ni una afirmación de respaldo del banco.
+**Versión 1.0.0 — primera edición pública.** Se comprobaron pagos reales Visa y Mastercard, cada una en USD y CRC, y el mantenedor verificó las cuatro aprobaciones también en el portal bancario. Las pruebas automatizadas utilizan un banco simulado. Staging sigue pendiente; WordPress.org ha aprobado el plugin y se prepara su primera publicación. Consulta los [resultados y limitaciones](docs/validation.md). Es una integración independiente, no un plugin oficial de BAC, PowerTranz o WooCommerce ni una afirmación de respaldo del banco.
 
 La interfaz de la pasarela y las guías están en **español**, sin instalar traducciones. El `readme.txt` se mantiene en inglés por requisito de WordPress.org. La interfaz inglesa y las traducciones oficiales del directorio se posponen; el idioma de WordPress y WooCommerce se configura por separado.
+
+**Versión 1.0.1 aprobada para el directorio:** corrige la carga de los recursos 3DS y del retorno bancario. Se prepara su primera publicación en [WordPress.org](https://wordpress.org/plugins/y2kwebs-bac/), con el mismo código revisado y documentación actualizada. Consulta el [registro de publicación](docs/wordpress-org.md).
 
 ## Funcionalidades
 

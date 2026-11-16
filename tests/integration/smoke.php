@@ -187,6 +187,8 @@ try {
 	powertranz_test_assert( false !== strpos( $receipt_html, 'Por favor, espere mientras procesamos su pago.' ), 'Receipt page must use a neutral waiting message.' );
 	powertranz_test_assert( false === strpos( $receipt_html, 'Complete la autenticación solicitada por su banco.' ), 'Receipt page must not claim that the bank requested authentication.' );
 	powertranz_test_assert( false !== strpos( $receipt_html, 'srcdoc=' ), 'PowerTranz RedirectData must be rendered with srcdoc as documented.' );
+	powertranz_test_assert( false !== strpos( $receipt_html, 'data-message-type="y2kwebs-bac-result-' . $order->get_id() . '"' ), 'Receipt must bind the result message to its order.' );
+	powertranz_test_assert( false === strpos( $receipt_html, '<script>' ), 'Receipt must not print executable inline JavaScript.' );
 	powertranz_test_assert( false === strpos( $receipt_html, 'sandbox=' ), 'The 3DS iframe must not sandbox issuer challenge scripts, storage, cookies, or navigation.' );
 
 	$stored_redirect_data = $order->get_meta( '_y2kwebs_bac_redirect_data', true );

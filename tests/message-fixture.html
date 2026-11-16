@@ -1,0 +1,12 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>BAC message boundary fixture</title>
+<script src="../assets/js/authentication.js"></script>
+</head><body>
+<h1>BAC message boundary fixture — local tests only</h1>
+<p id="result">Waiting for a valid result</p>
+<button id="wrong-window">Send from wrong window</button>
+<a href="?foreign=1">Test foreign origin</a>
+<iframe id="y2kwebs-bac-frame" data-message-type="y2kwebs-bac-result-42" title="Expected payment frame" src="message-sender.html"></iframe>
+<iframe title="Other payment frame" src="message-sender.html"></iframe>
+<script src="message-fixture.js"></script>
+</body></html>

@@ -17,9 +17,13 @@ add_filter( 'pre_http_request', static function ( $preempt, $args, $url ) {
 	if ( '/sale' === substr( $url, -5 ) ) {
 		$token = wp_generate_password( 24, false, false );
 		$response = array_intersect_key( $request, array_flip( array( 'TransactionIdentifier', 'TotalAmount', 'CurrencyCode', 'OrderIdentifier' ) ) );
-		$response['RiskManagement'] = array( 'ThreeDSecure' => array( 'AuthenticationStatus' => 'Y' ) );
+		$mode = get_option( 'y2kwebs_bac_local_bank_mode', 'challenge' );
+		$response['RiskManagement'] = array( 'ThreeDSecure' => array( 'AuthenticationStatus' => 'decline' === $mode ? 'N' : 'Y' ) );
 		set_transient( 'y2kwebs_bac_fake_' . $token, $response, 300 );
 		$html = '<!doctype html><html><body><p>Simulated bank — local tests only</p><form method="post" action="' . esc_url( $request['ExtendedData']['MerchantResponseUrl'] ) . '"><input type="hidden" name="SpiToken" value="' . esc_attr( $token ) . '"><input type="hidden" name="Response" value="' . esc_attr( wp_json_encode( $response ) ) . '"><button>Approve simulated payment</button></form></body></html>';
+		if ( 'immediate' === $mode ) {
+			$html = str_replace( '</body>', '<script>document.forms[0].submit();</script></body>', $html );
+		}
 		$response['IsoResponseCode'] = 'SP4';
 		$response['RedirectData'] = $html;
 	} else {

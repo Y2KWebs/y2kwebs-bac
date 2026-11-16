@@ -4,7 +4,7 @@ Tags: woocommerce, payments, bac, powertranz, costa rica
 Requires at least: 6.9
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -97,10 +97,16 @@ Deactivation leaves order records and settings available. Uninstall deletes this
 
 == Screenshots ==
 
-1. Classic checkout in Spanish, supplied by the maintainer from their demo store. Store-specific titles and styling are configurable.
+1. Gateway settings in Spanish with fictitious merchant accounts and write-only password fields.
 2. Checkout Blocks with fictitious demo data.
 
 == Changelog ==
+
+= 1.0.1 =
+
+* Load the 3DS listener and bank-return script through the WordPress script API.
+* Validate payment-result messages by source window, origin, order and local destination.
+* Use an external callback script with a same-origin Content Security Policy.
 
 = 1.0.0 =
 

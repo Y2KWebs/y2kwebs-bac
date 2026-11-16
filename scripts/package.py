@@ -5,10 +5,11 @@ import re
 import zipfile
 
 ROOT = Path(__file__).resolve().parent.parent
-VERSION = "1.0.0"
+VERSION = "1.0.1"
 SLUG = "y2kwebs-bac"
 SCREENSHOTS = ("docs/images/settings.jpg", "docs/images/blocks.jpg")
-IMAGES = frozenset(SCREENSHOTS)
+ARTWORK = ("design/wordpress-org/exports/banner-772x250.png", "design/wordpress-org/exports/banner-1544x500.png", "design/wordpress-org/exports/icon-128x128.png", "design/wordpress-org/exports/icon-256x256.png")
+IMAGES = frozenset((*SCREENSHOTS, *ARTWORK))
 FILES = (
     "y2kwebs-bac.php", "index.php", "uninstall.php", "LICENSE", "readme.txt", "README.md", "SECURITY.md", "CONTRIBUTING.md",
     "includes/class-powertranz-api-client.php", "includes/class-powertranz-authentication-policy.php",
@@ -17,9 +18,10 @@ FILES = (
     "includes/class-powertranz-diagnostics.php", "includes/class-powertranz-gateway.php",
     "blocks/class-y2kwebs-bac-blocks-support.php", "templates/payment-fields.php",
     "assets/css/checkout.css", "assets/js/checkout.js", "assets/js/blocks.js",
+    "assets/js/authentication.js", "assets/js/callback.js",
     "docs/configuration.md", "docs/development.md", "docs/pilot.md", "docs/validation.md", "docs/wordpress-org.md",
     "docs/architecture.md", "docs/releasing.md",
-    *sorted(IMAGES),
+    *SCREENSHOTS,
 )
 SECRET_PATTERN = re.compile(
     r"-----BEGIN (?:RSA |EC |OPENSSH |ENCRYPTED )?PRIVATE KEY-----"
