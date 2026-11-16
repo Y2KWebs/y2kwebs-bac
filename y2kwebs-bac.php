@@ -1,8 +1,8 @@
 <?php
 /**
  * Plugin Name: Y2KWebs Gateway for BAC
- * Description: Pagos de contado mediante PowerTranz SPI 3DS para cuentas CRC y USD.
- * Version: 1.0.1
+ * Description: One-time payments via PowerTranz SPI 3DS for CRC and USD accounts.
+ * Version: 1.0.2
  * Plugin URI: https://github.com/Y2KWebs/y2kwebs-bac
  * Author: Y2KWebs
  * Author URI: https://y2kwebs.com/
@@ -13,15 +13,19 @@
  * WC requires at least: 9.0
  * WC tested up to: 11.2
  * Text Domain: y2kwebs-bac
+ * Domain Path: /languages
  * Requires Plugins: woocommerce
  */
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'Y2KWEBS_BAC_VERSION', '1.0.1' );
+define( 'Y2KWEBS_BAC_VERSION', '1.0.2' );
 define( 'Y2KWEBS_BAC_FILE', __FILE__ );
 define( 'Y2KWEBS_BAC_PATH', plugin_dir_path( __FILE__ ) );
 define( 'Y2KWEBS_BAC_URL', plugin_dir_url( __FILE__ ) );
+
+require_once Y2KWEBS_BAC_PATH . 'includes/class-y2kwebs-bac-languages.php';
+Y2KWEBS_BAC_Languages::register();
 
 add_action(
 	'before_woocommerce_init',

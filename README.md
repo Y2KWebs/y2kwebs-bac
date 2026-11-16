@@ -1,14 +1,25 @@
 # Y2KWebs Gateway for BAC
 
+## Publicación 1.0.2 y traducciones
+
+La versión aprobada 1.0.1 se publicó el 16 de noviembre de 2026 en GitHub y WordPress.org (SVN r3805265), con cabecera e iconos Y2KWebs. Sus etiquetas y paquetes se conservan.
+
+El candidato 1.0.2 usa cadenas fuente en inglés e incluye `languages/y2kwebs-bac-es_ES.po` y `.mo` como respaldo para todos los locales españoles. Los paquetes oficiales regionales tienen prioridad por cadena. Los ajustes siguen el idioma del administrador; el checkout y sus peticiones AJAX siguen el idioma de la tienda. Los títulos y descripciones guardados por el comercio se conservan sin traducirlos ni sobrescribirlos. Las guías de usuario permanecen en español.
+
+Las traducciones del directorio y los paquetes oficiales se gestionan en Translate WordPress y requieren revisión de la comunidad. Su importación no implica aprobación ni disponibilidad de paquetes oficiales. La validación bancaria en staging continúa pendiente; estas comprobaciones utilizan exclusivamente banco simulado.
+
+Para preparar el candidato: `python scripts/build_translations.py --check`, `python scripts/check_public.py`, pruebas y `python scripts/prepare_wordpress_org.py`. El material SVN se genera en `dist/wordpress-org-1.0.2`; los PNG del directorio se publican en `/assets`, fuera del ZIP instalable.
+
+
 Plugin independiente, gratuito y de código abierto para aceptar pagos con tarjeta de **BAC Costa Rica en WooCommerce**, mediante **PowerTranz/FAC SPI 3DS**, desarrollado por [Y2KWebs](https://y2kwebs.com/). Sin registro obligatorio, suscripción, telemetría ni anuncios en el checkout.
 
 [Versión 1.0.0 y descargas](https://github.com/Y2KWebs/y2kwebs-bac/releases/tag/v1.0.0) · [Instalación y soporte profesional](https://y2kwebs.com/) · [Reportar un problema](https://github.com/Y2KWebs/y2kwebs-bac/issues/new/choose)
 
-**Versión 1.0.0 — primera edición pública.** Se comprobaron pagos reales Visa y Mastercard, cada una en USD y CRC, y el mantenedor verificó las cuatro aprobaciones también en el portal bancario. Las pruebas automatizadas utilizan un banco simulado. Staging sigue pendiente; WordPress.org ha aprobado el plugin y se prepara su primera publicación. Consulta los [resultados y limitaciones](docs/validation.md). Es una integración independiente, no un plugin oficial de BAC, PowerTranz o WooCommerce ni una afirmación de respaldo del banco.
+**Versión 1.0.0 — primera edición pública.** Se comprobaron pagos reales Visa y Mastercard, cada una en USD y CRC, y el mantenedor verificó las cuatro aprobaciones también en el portal bancario. Las pruebas automatizadas utilizan un banco simulado. Staging sigue pendiente; 1.0.1 ya se publicó tras la aprobación de WordPress.org. Consulta los [resultados y limitaciones](docs/validation.md). Es una integración independiente, no un plugin oficial de BAC, PowerTranz o WooCommerce ni una afirmación de respaldo del banco.
 
-La interfaz de la pasarela y las guías están en **español**, sin instalar traducciones. El `readme.txt` se mantiene en inglés por requisito de WordPress.org. La interfaz inglesa y las traducciones oficiales del directorio se posponen; el idioma de WordPress y WooCommerce se configura por separado.
+La interfaz está disponible en **inglés y español**; el español se incluye en el plugin. Las guías permanecen en español y el `readme.txt` del directorio en inglés. Los paquetes regionales oficiales tienen prioridad cuando están disponibles.
 
-**Versión 1.0.1 aprobada para el directorio:** corrige la carga de los recursos 3DS y del retorno bancario. Se prepara su primera publicación en [WordPress.org](https://wordpress.org/plugins/y2kwebs-bac/), con el mismo código revisado y documentación actualizada. Consulta el [registro de publicación](docs/wordpress-org.md).
+**Versión 1.0.1 aprobada para el directorio:** corrige la carga de los recursos 3DS y del retorno bancario. Publicada en [WordPress.org](https://wordpress.org/plugins/y2kwebs-bac/), con el mismo código revisado y documentación actualizada. Consulta el [registro de publicación](docs/wordpress-org.md).
 
 ## Funcionalidades
 

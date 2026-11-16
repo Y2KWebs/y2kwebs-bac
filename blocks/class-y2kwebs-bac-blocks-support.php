@@ -42,16 +42,17 @@ final class Y2KWEBS_BAC_Blocks_Support extends AbstractPaymentMethodType {
 
 	public function get_payment_method_data() {
 		return array(
-			'title'               => $this->get_setting( 'title' ),
-			'description'         => $this->get_setting( 'description' ),
+			'title'               => $this->gateway ? $this->gateway->get_title() : __( 'Credit or debit card', 'y2kwebs-bac' ),
+			'description'         => $this->gateway ? $this->gateway->get_description() : __( 'Secure payment processed by PowerTranz.', 'y2kwebs-bac' ),
 			'supports'            => $this->gateway ? array_filter( $this->gateway->supports, array( $this->gateway, 'supports' ) ) : array( 'products' ),
 			'supportedCurrencies' => array_keys( Y2KWEBS_BAC_Currency_Config::supported_currencies() ),
-			'cardholderLabel'     => __( 'Nombre del titular', 'y2kwebs-bac' ),
-			'panLabel'            => __( 'Número de tarjeta', 'y2kwebs-bac' ),
-			'expiryLabel'         => __( 'Vencimiento', 'y2kwebs-bac' ),
-			'cvvLabel'            => __( 'Código de seguridad', 'y2kwebs-bac' ),
-			'validationMessage'   => __( 'Revise los datos de la tarjeta.', 'y2kwebs-bac' ),
-			'privacyMessage'      => __( 'Los datos de la tarjeta se transmiten a PowerTranz para este pago y no se guardan en WordPress.', 'y2kwebs-bac' ),
+			'cardholderLabel'     => __( 'Cardholder name', 'y2kwebs-bac' ),
+			'panLabel'            => __( 'Card number', 'y2kwebs-bac' ),
+			'expiryPlaceholder'   => __( 'MM/YY', 'y2kwebs-bac' ),
+			'expiryLabel'         => __( 'Expiry date', 'y2kwebs-bac' ),
+			'cvvLabel'            => __( 'Security code', 'y2kwebs-bac' ),
+			'validationMessage'   => __( 'Check the card details.', 'y2kwebs-bac' ),
+			'privacyMessage'      => __( 'Card data is transmitted to PowerTranz for this payment and is not stored in WordPress.', 'y2kwebs-bac' ),
 		);
 	}
 }

@@ -5,10 +5,11 @@ import re
 import zipfile
 
 ROOT = Path(__file__).resolve().parent.parent
-VERSION = "1.0.1"
+VERSION = "1.0.2"
 SLUG = "y2kwebs-bac"
 SCREENSHOTS = ("docs/images/settings.jpg", "docs/images/blocks.jpg")
 ARTWORK = ("design/wordpress-org/exports/banner-772x250.png", "design/wordpress-org/exports/banner-1544x500.png", "design/wordpress-org/exports/icon-128x128.png", "design/wordpress-org/exports/icon-256x256.png")
+CATALOGUES = frozenset(("languages/y2kwebs-bac-es_ES.mo",))
 IMAGES = frozenset((*SCREENSHOTS, *ARTWORK))
 FILES = (
     "y2kwebs-bac.php", "index.php", "uninstall.php", "LICENSE", "readme.txt", "README.md", "SECURITY.md", "CONTRIBUTING.md",
@@ -21,6 +22,8 @@ FILES = (
     "assets/js/authentication.js", "assets/js/callback.js",
     "docs/configuration.md", "docs/development.md", "docs/pilot.md", "docs/validation.md", "docs/wordpress-org.md",
     "docs/architecture.md", "docs/releasing.md",
+    "includes/class-y2kwebs-bac-languages.php",
+    "languages/y2kwebs-bac.pot", "languages/y2kwebs-bac-es_ES.po", "languages/y2kwebs-bac-es_ES.mo",
     *SCREENSHOTS,
 )
 SECRET_PATTERN = re.compile(

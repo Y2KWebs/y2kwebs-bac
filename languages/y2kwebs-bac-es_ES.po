@@ -1,0 +1,257 @@
+# Copyright (C) 2026 Y2KWebs
+# Distributed under GPL-2.0-or-later.
+msgid ""
+msgstr "Project-Id-Version: Y2KWebs Gateway for BAC 1.0.2\nLanguage: es_ES\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=2; plural=(n != 1);\nX-Domain: y2kwebs-bac\n"
+
+msgid "API root"
+msgstr "Raíz del API"
+
+msgid "Account not configured"
+msgstr "Cuenta sin configurar"
+
+msgid "Administrators only"
+msgstr "Sólo administradores"
+
+msgid "All customers"
+msgstr "Todos los clientes"
+
+msgid "Allow payment completion with AuthenticationStatus U"
+msgstr "Permitir completar pagos con AuthenticationStatus U"
+
+msgid "Authentication unavailable"
+msgstr "Autenticación no disponible"
+
+msgid "BAC — Y2KWebs"
+msgstr "BAC — Y2KWebs"
+
+msgid "Card data is transmitted to PowerTranz for this payment and is not stored in WordPress."
+msgstr "Los datos de la tarjeta se transmiten a PowerTranz para este pago y no se guardan en WordPress."
+
+msgid "Card number"
+msgstr "Número de tarjeta"
+
+msgid "Cardholder name"
+msgstr "Nombre del titular"
+
+msgid "Check the billing email and phone number."
+msgstr "Revise el correo y el teléfono de facturación."
+
+msgid "Check the card details."
+msgstr "Revise los datos de la tarjeta."
+
+msgid "Checkout visibility"
+msgstr "Visibilidad en el checkout"
+
+msgid "Continue"
+msgstr "Continuar"
+
+msgid "Could not communicate with PowerTranz."
+msgstr "No fue posible comunicarse con PowerTranz."
+
+msgid "Credit or debit card"
+msgstr "Tarjeta de crédito o débito"
+
+msgid "Delete saved passwords"
+msgstr "Eliminar contraseñas guardadas"
+
+msgid "Delete the CRC and USD passwords when saving and disable the gateway."
+msgstr "Borrar las contraseñas CRC y USD al guardar y desactivar la pasarela."
+
+msgid "Description"
+msgstr "Descripción"
+
+msgid "Diagnostic logging"
+msgstr "Registro de diagnóstico"
+
+msgid "Disabled by default: U transactions do not retain protection against certain chargebacks."
+msgstr "Desactivado por defecto: las transacciones U no conservan protección frente a determinados contracargos."
+
+msgid "During certification, keep the method visible to administrators only. Make it available to everyone only when it is ready for customers."
+msgstr "Durante la certificación, mantenga el método visible sólo para administradores. Cámbielo a todos únicamente cuando esté listo para clientes."
+
+msgid "Enable BAC (PowerTranz)"
+msgstr "Activar BAC (PowerTranz)"
+
+msgid "Enable/Disable"
+msgstr "Activar/Desactivar"
+
+msgid "Enter the cardholder name."
+msgstr "Ingrese el nombre del titular de la tarjeta."
+
+msgid "Environment"
+msgstr "Entorno"
+
+msgid "Expiry date"
+msgstr "Vencimiento"
+
+msgid "FAC detail: %s."
+msgstr "Detalle FAC: %s."
+
+msgid "Identifier of the CRC account supplied by PowerTranz/BAC."
+msgstr "Identificador de la cuenta de colones facilitado por PowerTranz/BAC."
+
+msgid "Identifier of the USD account supplied by PowerTranz/BAC."
+msgstr "Identificador de la cuenta de dólares facilitado por PowerTranz/BAC."
+
+msgid "Issuer information: "
+msgstr "Información del emisor: "
+
+msgid "Log PowerTranz failures in the WooCommerce logs"
+msgstr "Registrar fallos de PowerTranz en los logs de WooCommerce"
+
+msgid "MM/YY"
+msgstr "MM/AA"
+
+msgid "Name displayed during checkout."
+msgstr "Nombre mostrado durante el checkout."
+
+msgid "One-time payments via PowerTranz SPI 3DS for CRC and USD accounts."
+msgstr "Pagos de contado mediante PowerTranz SPI 3DS para cuentas CRC y USD."
+
+msgid "One-time payments with SPI 3DS authentication for CRC and USD."
+msgstr "Venta de contado con autenticación SPI 3DS para CRC y USD."
+
+msgid "Optional. Leave empty to use the official endpoint for the selected environment."
+msgstr "Opcional. Déjelo vacío para usar el endpoint oficial del entorno seleccionado."
+
+msgid "Password — CRC"
+msgstr "Contraseña — CRC"
+
+msgid "Password — USD"
+msgstr "Contraseña — USD"
+
+msgid "Payment result"
+msgstr "Resultado del pago"
+
+msgid "Please wait while we process your payment."
+msgstr "Por favor, espere mientras procesamos su pago."
+
+msgid "PowerTranz ID — CRC"
+msgstr "PowerTranz ID — CRC"
+
+msgid "PowerTranz ID — USD"
+msgstr "PowerTranz ID — USD"
+
+msgid "PowerTranz declined the start of the payment. Diagnostic: %1$s; ISO: %2$s; PowerTranz ResponseCode: %3$s; message: %4$s."
+msgstr "PowerTranz rechazó el inicio del pago. Diagnóstico: %1$s; ISO: %2$s; ResponseCode PowerTranz: %3$s; mensaje: %4$s."
+
+msgid "PowerTranz did not complete the payment flow. Diagnostic: %1$s; AuthenticationStatus: %2$s; 3DS ResponseCode: %3$s; ECI: %4$s; protocol: %5$s; ISO: %6$s; PowerTranz ResponseCode: %7$s; message: %8$s."
+msgstr "PowerTranz no completó el flujo de pago. Diagnóstico: %1$s; AuthenticationStatus: %2$s; ResponseCode 3DS: %3$s; ECI: %4$s; protocolo: %5$s; ISO: %6$s; ResponseCode PowerTranz: %7$s; mensaje: %8$s."
+
+msgid "PowerTranz payment approved. 3DS: %1$s; ISO: 00; transaction: %2$s."
+msgstr "Pago PowerTranz aprobado. 3DS: %1$s; ISO: 00; transacción: %2$s."
+
+msgid "PowerTranz returned an invalid response."
+msgstr "PowerTranz devolvió una respuesta no válida."
+
+msgid "PowerTranz started 3DS authentication (SP4)."
+msgstr "PowerTranz inició la autenticación 3DS (SP4)."
+
+msgid "Production"
+msgstr "Producción"
+
+msgid "Records only the order, environment, currency, amount, ISO, sanitized message, result and safe 3DS fields, plus a masked PowerTranz ID. Never records PAN, CVV, credentials, SpiToken, RedirectData, CAVV, XID or DS Transaction ID."
+msgstr "Registra sólo pedido, entorno, moneda, importe, ISO, mensaje saneado, resultado y campos 3DS seguros, además del PowerTranz ID enmascarado. Nunca registra PAN, CVV, credenciales, SpiToken, RedirectData, CAVV, XID ni DS Transaction ID."
+
+msgid "Saved: leave empty to keep"
+msgstr "Guardada: deje vacío para conservar"
+
+msgid "Secure payment processed by PowerTranz."
+msgstr "Pago seguro procesado por PowerTranz."
+
+msgid "Secure payment processing"
+msgstr "Procesamiento seguro del pago"
+
+msgid "Security code"
+msgstr "Código de seguridad"
+
+msgid "Select a valid billing country."
+msgstr "Seleccione un país de facturación válido."
+
+msgid "Staging"
+msgstr "Pruebas"
+
+msgid "Stored encrypted. Leave the field empty to keep the saved password; enter a new one to replace it."
+msgstr "Se guarda cifrada. Deje el campo vacío para conservar la contraseña guardada; escriba otra para sustituirla."
+
+msgid "Text displayed below the payment method."
+msgstr "Texto mostrado debajo del método de pago."
+
+msgid "The PowerTranz URL must be valid and use HTTPS."
+msgstr "La URL de PowerTranz debe ser HTTPS y válida."
+
+msgid "The PowerTranz request could not be prepared."
+msgstr "No fue posible preparar la solicitud para PowerTranz."
+
+msgid "The bank result could not be confirmed. Check PowerTranz before accepting another payment. The charge has not been repeated."
+msgstr "No se pudo confirmar el resultado bancario. Revise PowerTranz antes de aceptar otro pago. No se ha repetido el cobro."
+
+msgid "The card has expired."
+msgstr "La tarjeta está vencida."
+
+msgid "The card number is invalid."
+msgstr "El número de tarjeta no es válido."
+
+msgid "The encrypted passwords could not be saved. Previous settings are preserved."
+msgstr "No se pudieron guardar las contraseñas cifradas. Los ajustes anteriores se conservan."
+
+msgid "The encrypted passwords could not be saved. Previous settings are preserved. Check OpenSSL and the installation configuration."
+msgstr "No se pudieron guardar las contraseñas cifradas. Los ajustes anteriores se conservan. Revise OpenSSL y la configuración de la instalación."
+
+msgid "The expiry date is invalid."
+msgstr "La fecha de vencimiento no es válida."
+
+msgid "The order amount has an invalid format."
+msgstr "El importe del pedido no tiene un formato válido."
+
+msgid "The order amount is outside the permitted range."
+msgstr "El importe del pedido está fuera del rango permitido."
+
+msgid "The order could not be validated. Please try again."
+msgstr "No pudimos validar el pedido. Por favor, inténtelo de nuevo."
+
+msgid "The password has an invalid format."
+msgstr "La contraseña no tiene un formato válido."
+
+msgid "The payment could not be completed. Please try again."
+msgstr "No pudimos completar el pago. Por favor, inténtelo de nuevo."
+
+msgid "The payment could not be started. Please try again."
+msgstr "No pudimos iniciar el pago. Por favor, inténtelo de nuevo."
+
+msgid "The payment is pending review. Contact the store before paying again."
+msgstr "El pago está pendiente de revisión. Contacte con la tienda antes de volver a pagar."
+
+msgid "The payment process could not be loaded. Please return to the order and try again."
+msgstr "No pudimos cargar el proceso de pago. Por favor, vuelva al pedido e inténtelo de nuevo."
+
+msgid "The security code is invalid."
+msgstr "El código de seguridad no es válido."
+
+msgid "The settings change could not be authorized."
+msgstr "No se pudo autorizar el cambio de ajustes."
+
+msgid "This order is already being processed. Wait before continuing."
+msgstr "Ya estamos procesando este pedido. Espere antes de continuar."
+
+msgid "This payment cannot be started. Contact the store."
+msgstr "No se puede iniciar este pago. Contacte con la tienda."
+
+msgid "This payment method is not available for the order currency."
+msgstr "Este método de pago no está disponible para la moneda del pedido."
+
+msgid "Title"
+msgstr "Título"
+
+msgid "Y2KWebs"
+msgstr "Y2KWebs"
+
+msgid "Y2KWebs Gateway for BAC"
+msgstr "Y2KWebs Gateway for BAC"
+
+msgid "https://github.com/Y2KWebs/y2kwebs-bac"
+msgstr "https://github.com/Y2KWebs/y2kwebs-bac"
+
+msgid "https://y2kwebs.com/"
+msgstr "https://y2kwebs.com/"
+

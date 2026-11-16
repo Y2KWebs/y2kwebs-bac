@@ -49,19 +49,19 @@ class PackageTests(unittest.TestCase):
     def test_version_mismatch_fails(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory); self.fixture(root)
-            path = root / "readme.txt"; path.write_text(path.read_text().replace("Stable tag: 1.0.1", "Stable tag: 9.9.9"))
+            path = root / "readme.txt"; path.write_text(path.read_text().replace("Stable tag: 1.0.2", "Stable tag: 9.9.9"))
             with self.assertRaises(ValueError): package(root)
 
     def test_svn_matches_archive(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory); self.fixture(root)
             out, digest = prepare(root)
-            archive = root / "dist" / "y2kwebs-bac-1.0.1.zip"
+            archive = root / "dist" / "y2kwebs-bac-1.0.2.zip"
             self.assertEqual(hashlib.sha256(archive.read_bytes()).hexdigest(), digest)
             with zipfile.ZipFile(archive) as source:
                 for name in FILES:
                     self.assertEqual(source.read(f"{SLUG}/{name}"), (out / "svn/trunk" / name).read_bytes())
-                    self.assertEqual(source.read(f"{SLUG}/{name}"), (out / "svn/tags/1.0.1" / name).read_bytes())
+                    self.assertEqual(source.read(f"{SLUG}/{name}"), (out / "svn/tags/1.0.2" / name).read_bytes())
             (out / "unexpected.txt").write_text("stale")
             with self.assertRaises(ValueError): prepare(root)
 

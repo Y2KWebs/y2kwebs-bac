@@ -1,10 +1,12 @@
 """Check Git publication candidates without printing potentially sensitive values."""
 from pathlib import Path
 import re
+import gettext
+import io
 import subprocess
 from urllib.parse import unquote, urlsplit
 
-from package import ROOT, SECRET_PATTERN, IMAGES
+from package import ROOT, SECRET_PATTERN, IMAGES, CATALOGUES
 
 
 def check(root=ROOT):
@@ -33,10 +35,14 @@ def check(root=ROOT):
             data = path.read_bytes()
             jpeg = data.startswith(b"\xff\xd8\xff") and data.endswith(b"\xff\xd9")
             png = data.startswith(b"\x89PNG\r\n\x1a\n") and data.endswith(b"\x00\x00\x00\x00IEND\xaeB`\x82")
-            if name not in IMAGES or not (jpeg or png) or len(data) > 2_000_000:
+            if name in CATALOGUES:
+                catalogue = gettext.GNUTranslations(io.BytesIO(data))
+                content = "\n".join(str(value) for value in catalogue._catalog.values())
+            elif name not in IMAGES or not (jpeg or png) or len(data) > 2_000_000:
                 errors.append(f"{name}: binary file requires explicit manual review")
                 continue
-            content = data.decode("utf-8", errors="ignore")
+            else:
+                content = data.decode("utf-8", errors="ignore")
         for number, line in enumerate(content.splitlines(), 1):
             # This existing negative test deliberately rejects URL userinfo.
             reviewed = line

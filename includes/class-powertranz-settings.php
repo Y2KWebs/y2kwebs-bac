@@ -70,7 +70,7 @@ final class Y2KWEBS_BAC_Settings {
 		}
 		if ( self::$error && in_array( $request->get_method(), array( 'POST', 'PUT', 'PATCH' ), true ) ) {
 			$response->set_status( 400 );
-			$response->set_data( array( 'code' => 'y2kwebs_bac_credential_save_failed', 'message' => __( 'No se pudieron guardar las contraseñas cifradas. Los ajustes anteriores se conservan.', 'y2kwebs-bac' ) ) );
+			$response->set_data( array( 'code' => 'y2kwebs_bac_credential_save_failed', 'message' => __( 'The encrypted passwords could not be saved. Previous settings are preserved.', 'y2kwebs-bac' ) ) );
 			return $response;
 		}
 		$saved = get_option( self::OPTION, array() );

@@ -113,7 +113,7 @@ final class Y2KWEBS_BAC_Diagnostics {
 	public static function order_note( array $context ) {
 		$note = sprintf(
 			/* translators: 1: internal reason, 2: ISO code, 3: PowerTranz response code, 4: provider message. */
-			__( 'PowerTranz rechazó el inicio del pago. Diagnóstico: %1$s; ISO: %2$s; ResponseCode PowerTranz: %3$s; mensaje: %4$s.', 'y2kwebs-bac' ),
+			__( 'PowerTranz declined the start of the payment. Diagnostic: %1$s; ISO: %2$s; PowerTranz ResponseCode: %3$s; message: %4$s.', 'y2kwebs-bac' ),
 			$context['reason'] ?: '-',
 			$context['iso_response_code'] ?: '-',
 			$context['gateway_response_code'] ?: '-',
@@ -123,7 +123,7 @@ final class Y2KWEBS_BAC_Diagnostics {
 		if ( ! empty( $context['provider_errors'] ) ) {
 			$note .= ' ' . sprintf(
 				/* translators: %s: sanitized PowerTranz error codes and messages. */
-				__( 'Detalle FAC: %s.', 'y2kwebs-bac' ),
+				__( 'FAC detail: %s.', 'y2kwebs-bac' ),
 				$context['provider_errors']
 			);
 		}
@@ -139,7 +139,7 @@ final class Y2KWEBS_BAC_Diagnostics {
 	public static function authentication_order_note( array $context ) {
 		$note = sprintf(
 			/* translators: 1: reason, 2: authentication status, 3: 3DS response code, 4: ECI, 5: protocol, 6: ISO, 7: PowerTranz response code, 8: response message. */
-			__( 'PowerTranz no completó el flujo de pago. Diagnóstico: %1$s; AuthenticationStatus: %2$s; ResponseCode 3DS: %3$s; ECI: %4$s; protocolo: %5$s; ISO: %6$s; ResponseCode PowerTranz: %7$s; mensaje: %8$s.', 'y2kwebs-bac' ),
+			__( 'PowerTranz did not complete the payment flow. Diagnostic: %1$s; AuthenticationStatus: %2$s; 3DS ResponseCode: %3$s; ECI: %4$s; protocol: %5$s; ISO: %6$s; PowerTranz ResponseCode: %7$s; message: %8$s.', 'y2kwebs-bac' ),
 			$context['reason'] ?: '-',
 			$context['authentication_status'] ?: '-',
 			$context['three_ds_response_code'] ?: '-',
@@ -161,7 +161,7 @@ final class Y2KWEBS_BAC_Diagnostics {
 			$optional[] = 'TransStatusReason: ' . $context['transaction_status_reason'];
 		}
 		if ( ! empty( $context['cardholder_info'] ) ) {
-			$optional[] = __( 'Información del emisor: ', 'y2kwebs-bac' ) . $context['cardholder_info'];
+			$optional[] = __( 'Issuer information: ', 'y2kwebs-bac' ) . $context['cardholder_info'];
 		}
 
 		return $optional ? $note . ' ' . implode( '; ', $optional ) . '.' : $note;
