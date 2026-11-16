@@ -1,0 +1,175 @@
+# Translation proposal prepared with AI assistance; community review pending.
+msgid ""
+msgstr "Project-Id-Version: Y2KWebs Gateway for BAC 1.0.2 Readme\nLanguage: es_ES\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Y2KWebs Gateway for BAC"
+msgstr "Y2KWebs Gateway for BAC"
+
+msgid "Accept card payments with BAC Costa Rica through PowerTranz SPI 3DS. Supports CRC, USD, classic checkout, Blocks and HPOS."
+msgstr "Acepta pagos con tarjeta de BAC Costa Rica mediante PowerTranz SPI 3DS. Compatible con CRC, USD, pago clásico, bloques y HPOS."
+
+msgid "Gateway settings in Spanish with fictitious merchant accounts and write-only password fields."
+msgstr "Ajustes de la pasarela en español con cuentas de comercio ficticias y campos de contraseña de solo escritura."
+
+msgid "Checkout Blocks with fictitious demo data."
+msgstr "Bloques de pago con datos ficticios de demostración."
+
+msgid "External service and privacy"
+msgstr "Servicio externo y privacidad"
+
+msgid "Credits"
+msgstr "Créditos"
+
+msgid "Separate CRC and USD merchant accounts, selected using the order currency."
+msgstr "Cuentas de comercio independientes para CRC y USD, seleccionadas según la moneda del pedido."
+
+msgid "Classic checkout and Checkout Blocks."
+msgstr "Página de pago clásica y bloques de pago."
+
+msgid "HPOS-compatible order access."
+msgstr "Acceso a pedidos compatible con HPOS."
+
+msgid "3DS authentication and financial-response checks before confirming an order."
+msgstr "Autenticación 3DS y comprobación de la respuesta financiera antes de confirmar un pedido."
+
+msgid "Protection against concurrent or repeated payment requests."
+msgstr "Protección frente a solicitudes de pago simultáneas o repetidas."
+
+msgid "Uncertain financial results held for manual bank reconciliation."
+msgstr "Los resultados financieros inciertos quedan pendientes de conciliación bancaria manual."
+
+msgid "Optional diagnostics with sensitive fields excluded."
+msgstr "Diagnósticos opcionales que excluyen los campos sensibles."
+
+msgid "Credentials entered in WooCommerce with encrypted, write-only password storage. Editing wp-config.php is optional."
+msgstr "Credenciales introducidas en WooCommerce, con contraseñas cifradas y almacenadas en campos de solo escritura. Editar wp-config.php es opcional."
+
+msgid "Y2KWebs Gateway for BAC connects WooCommerce to the PowerTranz/FAC SPI payment service used by compatible BAC Costa Rica merchant accounts."
+msgstr "Y2KWebs Gateway for BAC conecta WooCommerce con el servicio de pagos PowerTranz/FAC SPI utilizado por las cuentas de comercio compatibles de BAC Costa Rica."
+
+msgid "The plugin is free and open source. You need your own merchant agreement and compatible PowerTranz SPI credentials. Bank fees and payment-service conditions are separate. No Y2KWebs account, subscription or paid support is required. Optional installation and professional support are available from <a href=\"https://y2kwebs.com/\">Y2KWebs</a>."
+msgstr "El plugin es gratuito y de código abierto. Necesita su propio contrato de comercio y credenciales compatibles con PowerTranz SPI. Las comisiones bancarias y las condiciones del servicio de pagos se gestionan por separado. No se requiere una cuenta de Y2KWebs, una suscripción ni soporte de pago. <a href=\"https://y2kwebs.com/\">Y2KWebs</a> ofrece instalación y soporte profesional opcionales."
+
+msgid "The gateway uses English source strings and includes a complete Spanish translation for every Spanish WordPress locale. Official regional language packs take precedence when available. User documentation remains in Spanish."
+msgstr "La pasarela utiliza cadenas fuente en inglés e incluye una traducción completa al español para todas las variantes de español de WordPress. Los paquetes oficiales regionales tienen prioridad cuando están disponibles. La documentación de uso permanece en español."
+
+msgid "This is an independent integration. It is not an official plugin from BAC, PowerTranz or WooCommerce and does not imply their endorsement. All trademarks belong to their respective owners."
+msgstr "Esta es una integración independiente. No es un plugin oficial de BAC, PowerTranz o WooCommerce ni implica su respaldo. Todas las marcas pertenecen a sus respectivos titulares."
+
+msgid "Features:"
+msgstr "Características:"
+
+msgid "Only one-time sales are supported. Automatic refunds, recurring payments, stored cards, installments and currency conversion are not included. Compatibility with other countries or every BAC payment product is not claimed."
+msgstr "Solo se admiten ventas de contado. No se incluyen reembolsos automáticos, pagos recurrentes, tarjetas guardadas, cuotas ni conversión de moneda. No se garantiza la compatibilidad con otros países ni con todos los productos de pago de BAC."
+
+msgid "Requirements: WooCommerce 9.0 or later, HTTPS, PHP OpenSSL with AES-256-GCM and MySQL/MariaDB with GET_LOCK support, in addition to the WordPress/PHP versions listed above. Live Visa and Mastercard approvals have been verified in both CRC and USD. Automated tests use a simulated bank; provider staging validation remains pending. This does not establish support for every card brand or merchant account."
+msgstr "Requisitos: WooCommerce 9.0 o posterior, HTTPS, PHP OpenSSL con AES-256-GCM y MySQL/MariaDB compatible con GET_LOCK, además de las versiones de WordPress y PHP indicadas. Se han verificado aprobaciones reales de Visa y Mastercard tanto en CRC como en USD. Las pruebas automatizadas utilizan un banco simulado; la validación en el entorno de pruebas del proveedor sigue pendiente. Esto no acredita la compatibilidad con todas las marcas de tarjeta ni cuentas de comercio."
+
+msgid "PowerTranz/FAC is required to authenticate and process payments. When a customer submits card details, the plugin transmits the cardholder name, card number, expiry and CVV, billing name and address, country, email, phone, order reference, transaction identifier, amount, currency and merchant callback URL to the configured PowerTranz endpoint. The initial request also includes merchant credentials. The bank/issuer may load its own 3DS challenge in an iframe and collect device or authentication information."
+msgstr "PowerTranz/FAC es necesario para autenticar y procesar los pagos. Cuando un cliente envía los datos de la tarjeta, el plugin transmite el nombre del titular, número de tarjeta, vencimiento y CVV, nombre y dirección de facturación, país, correo electrónico, teléfono, referencia del pedido, identificador de transacción, importe, moneda y URL de retorno del comercio al endpoint configurado de PowerTranz. La solicitud inicial también incluye las credenciales del comercio. El banco emisor puede cargar su propio desafío 3DS en un iframe y recopilar información del dispositivo o de autenticación."
+
+msgid "Staging endpoint: https://staging.ptranz.com/api/spi\nProduction endpoint: https://gateway.ptranz.com/api/spi\nProvider documentation: https://developer.powertranz.com/ (access may require provider credentials).\nProvider website terms: https://powertranz.com/terms-of-use\nProvider privacy policy: https://powertranz.com/privacy-policy\nBAC merchant information: https://ayuda.baccredomatic.com/para_empresas_o_negocios/comercios_afiliados/e-commerce\nBAC Costa Rica e-commerce terms: https://www.baccredomatic.com/sites/default/files/2024-07/cr_carga_de_terminos_condiciones_e-commerce.PDF"
+msgstr "Endpoint de pruebas: https://staging.ptranz.com/api/spi\nEndpoint de producción: https://gateway.ptranz.com/api/spi\nDocumentación del proveedor: https://developer.powertranz.com/ (el acceso puede requerir credenciales del proveedor).\nCondiciones del sitio del proveedor: https://powertranz.com/terms-of-use\nPolítica de privacidad del proveedor: https://powertranz.com/privacy-policy\nInformación de BAC para comercios: https://ayuda.baccredomatic.com/para_empresas_o_negocios/comercios_afiliados/e-commerce\nCondiciones de comercio electrónico de BAC Costa Rica: https://www.baccredomatic.com/sites/default/files/2024-07/cr_carga_de_terminos_condiciones_e-commerce.PDF"
+
+msgid "Website terms do not replace the merchant's payment-service agreement. Confirm applicable conditions and card-data compliance obligations with BAC/PowerTranz."
+msgstr "Las condiciones del sitio web no sustituyen el contrato del servicio de pagos del comercio. Confirme con BAC/PowerTranz las condiciones aplicables y las obligaciones de cumplimiento relativas a los datos de tarjeta."
+
+msgid "PAN, CVV and SPI tokens are not persisted by this plugin. SPI direct transmits card data through the merchant server in memory; this is not hosted tokenization. WooCommerce retains its normal order and billing records. The plugin retains non-sensitive transaction references, status and redacted diagnostics; temporary 3DS redirect HTML and a hashed callback state are used during authentication. Merchant credentials saved in WooCommerce remain in its database; server constants or environment variables are recommended. There is no analytics or telemetry sent to Y2KWebs."
+msgstr "Este plugin no guarda PAN, CVV ni tokens SPI. SPI directo transmite los datos de tarjeta en memoria a través del servidor del comercio; no es tokenización alojada por el proveedor. WooCommerce conserva sus registros habituales de pedidos y facturación. El plugin conserva referencias de transacción no sensibles, estados y diagnósticos saneados; durante la autenticación utiliza temporalmente HTML de redirección 3DS y un hash del estado de retorno. Las credenciales guardadas en WooCommerce permanecen en su base de datos; se recomienda usar constantes del servidor o variables de entorno. No se envían analíticas ni telemetría a Y2KWebs."
+
+msgid "Developed and maintained by Y2KWebs. Credit to JARS Costa Rica for the historical reference integration; this maintained implementation uses an independent architecture and identity."
+msgstr "Desarrollado y mantenido por Y2KWebs. Se reconoce a JARS Costa Rica la integración histórica de referencia; esta implementación mantenida utiliza una arquitectura e identidad independientes."
+
+msgid "Install and activate WooCommerce. Use HTTPS."
+msgstr "Instale y active WooCommerce. Utilice HTTPS."
+
+msgid "Upload the plugin ZIP through Plugins &gt; Add Plugin &gt; Upload Plugin and activate it."
+msgstr "Suba el ZIP del plugin desde Plugins &gt; Añadir plugin &gt; Subir plugin y actívelo."
+
+msgid "Open WooCommerce &gt; Settings &gt; Payments &gt; BAC — Y2KWebs."
+msgstr "Abra WooCommerce &gt; Ajustes &gt; Pagos &gt; BAC — Y2KWebs."
+
+msgid "Leave the gateway in staging with administrator-only visibility while testing."
+msgstr "Durante las pruebas, mantenga la pasarela en el entorno de pruebas y visible solo para administradores."
+
+msgid "Enter compatible CRC/USD staging credentials, or configure the documented server constants/environment variables."
+msgstr "Introduzca credenciales de pruebas compatibles para CRC y USD, o configure las constantes del servidor o variables de entorno documentadas."
+
+msgid "Enable the gateway and test the currencies enabled by your bank."
+msgstr "Active la pasarela y pruebe las monedas habilitadas por su banco."
+
+msgid "Configure your own production credentials and open customer visibility only when ready."
+msgstr "Configure sus propias credenciales de producción y permita el acceso a los clientes únicamente cuando esté listo."
+
+msgid "What language does the plugin use?"
+msgstr "¿Qué idioma utiliza el plugin?"
+
+msgid "Does this work with any BAC merchant account?"
+msgstr "¿Funciona con cualquier cuenta de comercio de BAC?"
+
+msgid "Do I have to edit wp-config.php?"
+msgstr "¿Tengo que editar wp-config.php?"
+
+msgid "Which authentication results are allowed?"
+msgstr "¿Qué resultados de autenticación se permiten?"
+
+msgid "What happens after a timeout?"
+msgstr "¿Qué ocurre tras un tiempo de espera agotado?"
+
+msgid "Can I refund a payment from WooCommerce?"
+msgstr "¿Puedo reembolsar un pago desde WooCommerce?"
+
+msgid "Where are logs?"
+msgstr "¿Dónde están los registros?"
+
+msgid "What happens when the plugin is removed?"
+msgstr "¿Qué ocurre al eliminar el plugin?"
+
+msgid "Settings follow the administrator’s language; checkout fields and payment messages follow the store language. English and bundled Spanish are available immediately. All Spanish locales use the bundled translation when an official regional translation is missing. Saved payment titles and descriptions are preserved. User guides remain in Spanish. Directory translations are reviewed separately by the WordPress community."
+msgstr "Los ajustes siguen el idioma del administrador; los campos de pago y los mensajes de pago siguen el idioma de la tienda. El inglés y el español incluido están disponibles de inmediato. Todas las variantes de español utilizan la traducción incluida cuando falta una traducción regional oficial. Se conservan los títulos y descripciones de pago guardados. Las guías de uso permanecen en español. La comunidad de WordPress revisa por separado las traducciones del directorio."
+
+msgid "No. It requires a BAC Costa Rica account provisioned for the compatible PowerTranz/FAC SPI service. Ask the bank which integration and currencies your account supports."
+msgstr "No. Requiere una cuenta de BAC Costa Rica habilitada para el servicio compatible PowerTranz/FAC SPI. Consulte al banco qué integración y monedas admite su cuenta."
+
+msgid "No. Enter the CRC/USD merchant identifiers and passwords in WooCommerce &gt; Settings &gt; Payments &gt; BAC — Y2KWebs. Passwords are encrypted using AES-256-GCM in a separate non-autoloaded option. Forms and WooCommerce API responses never return them. Blank password fields keep saved values; explicit deletion removes both passwords and disables the gateway. Changing WordPress authentication salts requires entering the passwords again. Constants and environment variables remain optional alternatives for managed installations."
+msgstr "No. Introduzca los identificadores de comercio y las contraseñas de CRC y USD en WooCommerce &gt; Ajustes &gt; Pagos &gt; BAC — Y2KWebs. Las contraseñas se cifran con AES-256-GCM en una opción independiente sin carga automática. Los formularios y las respuestas de la API de WooCommerce nunca las devuelven. Los campos de contraseña vacíos conservan los valores guardados; la eliminación explícita borra ambas contraseñas y desactiva la pasarela. Cambiar las claves de autenticación de WordPress requiere volver a introducir las contraseñas. Las constantes y las variables de entorno siguen siendo alternativas opcionales para instalaciones administradas."
+
+msgid "Y and A. U is disabled by default and requires an explicit setting. N, R and unknown results cannot proceed to financial completion. A valid authentication result alone does not complete the WooCommerce order: the final bank approval must also match the order."
+msgstr "Y y A. U está desactivado por defecto y requiere un ajuste explícito. N, R y los resultados desconocidos no pueden pasar a la finalización financiera. Un resultado de autenticación válido no completa por sí solo el pedido de WooCommerce: la aprobación bancaria final también debe coincidir con el pedido."
+
+msgid "If financial completion was sent but its outcome cannot be established, the order is placed on hold and further financial requests for that attempt are blocked. Reconcile it with the bank before accepting another payment. There is no automatic financial retry or bank-status query in this version."
+msgstr "Si se envió la finalización financiera pero no se puede determinar su resultado, el pedido queda en espera y se bloquean nuevas solicitudes financieras para ese intento. Concilie el resultado con el banco antes de aceptar otro pago. Esta versión no realiza reintentos financieros ni consultas automáticas del estado bancario."
+
+msgid "Automatic bank refunds are not implemented. Refund through the bank and record the refund manually in WooCommerce. Changing an order status does not send money."
+msgstr "Los reembolsos bancarios automáticos no están implementados. Realice el reembolso en el banco y regístrelo manualmente en WooCommerce. Cambiar el estado de un pedido no envía dinero."
+
+msgid "Enable diagnostic logging, then open WooCommerce &gt; Status &gt; Logs and select y2kwebs-bac. Never publish real order exports or raw bank responses. Diagnostic fields exclude card data, passwords, SPI tokens, challenge HTML and cryptographic authentication values."
+msgstr "Active el registro de diagnóstico y abra WooCommerce &gt; Estado &gt; Registros; seleccione y2kwebs-bac. Nunca publique exportaciones de pedidos reales ni respuestas bancarias sin sanear. Los campos de diagnóstico excluyen datos de tarjeta, contraseñas, tokens SPI, HTML del desafío y valores criptográficos de autenticación."
+
+msgid "Deactivation leaves order records and settings available. Uninstall deletes this gateway's settings, including database-stored credentials, and preserves order transaction history for reconciliation. No other gateway's settings are migrated or deleted."
+msgstr "La desactivación conserva los registros de pedidos y los ajustes. La desinstalación elimina los ajustes de esta pasarela, incluidas las credenciales almacenadas en la base de datos, y conserva el historial de transacciones de los pedidos para su conciliación. No se migran ni eliminan ajustes de otras pasarelas."
+
+msgid "English source strings and a complete bundled Spanish translation for all Spanish locales."
+msgstr "Cadenas fuente en inglés y traducción completa al español incluida para todas las variantes de español."
+
+msgid "Prefer official regional language packs and preserve merchant-defined payment titles and descriptions."
+msgstr "Prioridad de los paquetes oficiales regionales y conservación de los títulos y descripciones de pago definidos por el comercio."
+
+msgid "Load the 3DS listener and bank-return script through the WordPress script API."
+msgstr "Carga del listener 3DS y del script de retorno bancario mediante la API de scripts de WordPress."
+
+msgid "Validate payment-result messages by source window, origin, order and local destination."
+msgstr "Validación de los mensajes de resultado por ventana de origen, origen web, pedido y destino local."
+
+msgid "Use an external callback script with a same-origin Content Security Policy."
+msgstr "Script externo de retorno con una política de seguridad de contenido del mismo origen."
+
+msgid "First public edition for BAC Costa Rica using PowerTranz/FAC SPI 3DS."
+msgstr "Primera edición pública para BAC Costa Rica mediante PowerTranz/FAC SPI 3DS."
+
+msgid "CRC/USD accounts, classic checkout, Checkout Blocks and HPOS."
+msgstr "Cuentas CRC y USD, pago clásico, bloques de pago y HPOS."
+
+msgid "Serialized payment attempts and manual reconciliation for uncertain financial results."
+msgstr "Intentos de pago serializados y conciliación manual de resultados financieros inciertos."
+
