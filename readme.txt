@@ -4,7 +4,7 @@ Tags: woocommerce, payments, bac, powertranz, costa rica
 Requires at least: 6.9
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -16,7 +16,7 @@ Y2KWebs Gateway for BAC connects WooCommerce to the PowerTranz/FAC SPI payment s
 
 The plugin is free and open source. You need your own merchant agreement and compatible PowerTranz SPI credentials. Bank fees and payment-service conditions are separate. No Y2KWebs account, subscription or paid support is required. Optional installation and professional support are available from [Y2KWebs](https://y2kwebs.com/).
 
-The gateway interface, checkout messages and user documentation are currently in Spanish. This English directory readme is provided for WordPress.org review. An English interface and official language packs are not included in this release.
+The gateway uses English source strings and includes a complete Spanish translation for every Spanish WordPress locale. Official regional language packs take precedence when available. User documentation remains in Spanish.
 
 This is an independent integration. It is not an official plugin from BAC, PowerTranz or WooCommerce and does not imply their endorsement. All trademarks belong to their respective owners.
 
@@ -65,7 +65,7 @@ PAN, CVV and SPI tokens are not persisted by this plugin. SPI direct transmits c
 
 = What language does the plugin use? =
 
-The gateway settings, checkout fields, payment messages and user guides are in Spanish. The directory readme is in English as required by WordPress.org. No translation setup is needed to use the Spanish interface. WooCommerce and WordPress keep their own language settings. Official directory translations and an English gateway interface are deferred.
+Settings follow the administrator’s language; checkout fields and payment messages follow the store language. English and bundled Spanish are available immediately. All Spanish locales use the bundled translation when an official regional translation is missing. Saved payment titles and descriptions are preserved. User guides remain in Spanish. Directory translations are reviewed separately by the WordPress community.
 
 = Does this work with any BAC merchant account? =
 
@@ -101,6 +101,10 @@ Deactivation leaves order records and settings available. Uninstall deletes this
 2. Checkout Blocks with fictitious demo data.
 
 == Changelog ==
+
+= 1.0.2 =
+* English source strings and a complete bundled Spanish translation for all Spanish locales.
+* Prefer official regional language packs and preserve merchant-defined payment titles and descriptions.
 
 = 1.0.1 =
 

@@ -4,7 +4,7 @@ if ( ! defined( 'WP_CLI' ) || ! WP_CLI || ! defined( 'Y2KWEBS_BAC_LOCAL_TEST' ) 
 $checks = 0;
 $assert = static function ( $ok, $message ) use ( &$checks ) { if ( ! $ok ) { throw new RuntimeException( $message ); } ++$checks; };
 add_filter( 'pre_http_request', static function () { return new WP_Error( 'release_external_blocked', 'External HTTP blocked.' ); }, 999 );
-$assert( defined( 'Y2KWEBS_BAC_VERSION' ) && '1.0.1' === Y2KWEBS_BAC_VERSION, 'Expected release version.' );
+$assert( defined( 'Y2KWEBS_BAC_VERSION' ) && '1.0.2' === Y2KWEBS_BAC_VERSION, 'Expected release version.' );
 $assert( ! is_dir( Y2KWEBS_BAC_PATH . 'tests' ) && ! is_dir( Y2KWEBS_BAC_PATH . '.runtime' ), 'Extracted release contains no development files.' );
 $gateways = WC()->payment_gateways()->payment_gateways();
 $assert( isset( $gateways['y2kwebs_bac'] ), 'Gateway registered.' );

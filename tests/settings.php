@@ -12,7 +12,7 @@ try {
 	wp_set_current_user( 1 );
 	delete_option( $option ); delete_option( Y2KWEBS_BAC_Secrets::OPTION );
 	$fresh = new Y2KWEBS_BAC_Gateway();
-	$assert( 'Tarjeta de crédito o débito' === $fresh->title && 'Pago seguro procesado por PowerTranz.' === $fresh->description, 'Fresh installation uses public checkout texts, without demo or private-test labels.' );
+	$assert( 'Credit or debit card' === $fresh->title && 'Secure payment processed by PowerTranz.' === $fresh->description, 'Fresh installation uses public checkout texts, without demo or private-test labels.' );
 	$assert( 'no' === $fresh->enabled && 'staging' === $fresh->get_option( 'environment' ) && 'administrators' === $fresh->get_option( 'availability_mode' ), 'Fresh installation remains disabled, staging and administrator-only.' );
 	$crc = 'synthetic-crc-+\\"/='; $usd = 'synthetic-usd-+\\"/=';
 	$settings = array( 'enabled' => 'yes', 'environment' => 'staging', 'availability_mode' => 'administrators', 'crc_id' => 'crc-test-id', 'usd_id' => 'usd-test-id', 'crc_password' => $crc, 'usd_password' => $usd );

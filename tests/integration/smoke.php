@@ -184,7 +184,7 @@ try {
 	ob_start();
 	$gateway->receipt_page( $order->get_id() );
 	$receipt_html = ob_get_clean();
-	powertranz_test_assert( false !== strpos( $receipt_html, 'Por favor, espere mientras procesamos su pago.' ), 'Receipt page must use a neutral waiting message.' );
+	powertranz_test_assert( false !== strpos( $receipt_html, 'Please wait while we process your payment.' ), 'Receipt page must use a neutral waiting message.' );
 	powertranz_test_assert( false === strpos( $receipt_html, 'Complete la autenticación solicitada por su banco.' ), 'Receipt page must not claim that the bank requested authentication.' );
 	powertranz_test_assert( false !== strpos( $receipt_html, 'srcdoc=' ), 'PowerTranz RedirectData must be rendered with srcdoc as documented.' );
 	powertranz_test_assert( false !== strpos( $receipt_html, 'data-message-type="y2kwebs-bac-result-' . $order->get_id() . '"' ), 'Receipt must bind the result message to its order.' );
@@ -202,7 +202,7 @@ try {
 	ob_start();
 	$gateway->receipt_page( $order->get_id() );
 	$missing_receipt_html = ob_get_clean();
-	powertranz_test_assert( false !== strpos( $missing_receipt_html, 'No pudimos cargar el proceso de pago.' ), 'Missing payment data must show a clear customer message.' );
+	powertranz_test_assert( false !== strpos( $missing_receipt_html, 'The payment process could not be loaded.' ), 'Missing payment data must show a clear customer message.' );
 	powertranz_test_assert( false === strpos( $missing_receipt_html, 'No existe una autenticación de PowerTranz pendiente' ), 'Missing payment data must not expose internal gateway state.' );
 	$order->update_meta_data( '_y2kwebs_bac_redirect_data', $stored_redirect_data );
 	$order->save();
@@ -280,7 +280,7 @@ try {
 	$note_text    = implode( ' ', wp_list_pluck( $failed_notes, 'content' ) );
 	powertranz_test_assert( false !== strpos( $note_text, 'unexpected_iso_response_code' ), 'Order note must include the exact validation reason.' );
 	powertranz_test_assert( false !== strpos( $note_text, '3D0' ), 'Order note must include the sanitized ISO response code.' );
-	powertranz_test_assert( false !== strpos( $note_text, 'ResponseCode PowerTranz: 326' ), 'Order note must include the sanitized PowerTranz response code.' );
+	powertranz_test_assert( false !== strpos( $note_text, 'PowerTranz ResponseCode: 326' ), 'Order note must include the sanitized PowerTranz response code.' );
 	powertranz_test_assert( false !== strpos( $note_text, '57: Missing 3DS field: PhoneNumber' ), 'Order note must include the sanitized FAC error detail.' );
 	powertranz_test_assert( false === strpos( $note_text, '4333333333332222' ), 'Order note must redact PAN-like digit sequences.' );
 	powertranz_test_assert( false === strpos( $note_text, '123' ), 'Order note must not expose CVV-like digits from the provider message.' );
@@ -379,10 +379,10 @@ try {
 	$authentication_notes = wc_get_order_notes( array( 'order_id' => $authentication_failed_order->get_id() ) );
 	$authentication_note_text = implode( ' ', wp_list_pluck( $authentication_notes, 'content' ) );
 	powertranz_test_assert( false !== strpos( $authentication_note_text, 'AuthenticationStatus: N' ), 'Authentication failure note must include AuthenticationStatus.' );
-	powertranz_test_assert( false !== strpos( $authentication_note_text, 'ResponseCode 3DS: 3D0' ), 'Authentication failure note must include the 3DS ResponseCode.' );
-	powertranz_test_assert( false !== strpos( $authentication_note_text, 'ResponseCode PowerTranz: 326' ), 'Authentication failure note must include the PowerTranz ResponseCode.' );
+	powertranz_test_assert( false !== strpos( $authentication_note_text, '3DS ResponseCode: 3D0' ), 'Authentication failure note must include the 3DS ResponseCode.' );
+	powertranz_test_assert( false !== strpos( $authentication_note_text, 'PowerTranz ResponseCode: 326' ), 'Authentication failure note must include the PowerTranz ResponseCode.' );
 	powertranz_test_assert( false !== strpos( $authentication_note_text, 'ECI: 07' ), 'Authentication failure note must include ECI.' );
-	powertranz_test_assert( false !== strpos( $authentication_note_text, 'protocolo: 2.2.0' ), 'Authentication failure note must include ProtocolVersion.' );
+	powertranz_test_assert( false !== strpos( $authentication_note_text, 'protocol: 2.2.0' ), 'Authentication failure note must include ProtocolVersion.' );
 	powertranz_test_assert( false === strpos( $authentication_note_text, 'test@example.com' ), 'Authentication failure note must redact email addresses.' );
 	powertranz_test_assert( false === strpos( $authentication_note_text, '50622223333' ), 'Authentication failure note must redact phone-like numbers.' );
 	powertranz_test_assert( false === strpos( $authentication_note_text, 'forbidden-cavv' ), 'Authentication failure note must exclude CAVV.' );

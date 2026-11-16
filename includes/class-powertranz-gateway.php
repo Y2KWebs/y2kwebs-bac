@@ -28,7 +28,7 @@ final class Y2KWEBS_BAC_Gateway extends WC_Payment_Gateway {
 	public function __construct() {
 		$this->id                 = 'y2kwebs_bac';
 		$this->method_title       = __( 'BAC — Y2KWebs', 'y2kwebs-bac' );
-		$this->method_description = __( 'Venta de contado con autenticación SPI 3DS para CRC y USD.', 'y2kwebs-bac' );
+		$this->method_description = __( 'One-time payments with SPI 3DS authentication for CRC and USD.', 'y2kwebs-bac' );
 		$this->icon               = '';
 		$this->has_fields         = true;
 		$this->supports           = array( 'products' );
@@ -36,8 +36,8 @@ final class Y2KWEBS_BAC_Gateway extends WC_Payment_Gateway {
 		$this->init_form_fields();
 		$this->init_settings();
 
-		$this->title       = $this->get_option( 'title', __( 'Tarjeta de crédito o débito', 'y2kwebs-bac' ) );
-		$this->description = $this->get_option( 'description', __( 'Pago seguro procesado por PowerTranz.', 'y2kwebs-bac' ) );
+		$this->title       = $this->get_option( 'title', __( 'Credit or debit card', 'y2kwebs-bac' ) );
+		$this->description = $this->get_option( 'description', __( 'Secure payment processed by PowerTranz.', 'y2kwebs-bac' ) );
 
 		$this->currency_config = new Y2KWEBS_BAC_Currency_Config( $this->settings );
 		$this->api_client      = new Y2KWEBS_BAC_API_Client( $this->api_root() );
@@ -49,91 +49,91 @@ final class Y2KWEBS_BAC_Gateway extends WC_Payment_Gateway {
 	}
 
 	public function init_form_fields() {
-		$secret_description = __( 'Se guarda cifrada. Deje el campo vacío para conservar la contraseña guardada; escriba otra para sustituirla.', 'y2kwebs-bac' );
+		$secret_description = __( 'Stored encrypted. Leave the field empty to keep the saved password; enter a new one to replace it.', 'y2kwebs-bac' );
 
 		$this->form_fields = array(
 			'enabled'          => array(
-				'title'   => __( 'Activar/Desactivar', 'y2kwebs-bac' ),
+				'title'   => __( 'Enable/Disable', 'y2kwebs-bac' ),
 				'type'    => 'checkbox',
-				'label'   => __( 'Activar BAC (PowerTranz)', 'y2kwebs-bac' ),
+				'label'   => __( 'Enable BAC (PowerTranz)', 'y2kwebs-bac' ),
 				'default' => 'no',
 			),
 			'title'            => array(
-				'title'       => __( 'Título', 'y2kwebs-bac' ),
+				'title'       => __( 'Title', 'y2kwebs-bac' ),
 				'type'        => 'text',
-				'default'     => __( 'Tarjeta de crédito o débito', 'y2kwebs-bac' ),
+				'default'     => __( 'Credit or debit card', 'y2kwebs-bac' ),
 				'desc_tip'    => true,
-				'description' => __( 'Nombre mostrado durante el checkout.', 'y2kwebs-bac' ),
+				'description' => __( 'Name displayed during checkout.', 'y2kwebs-bac' ),
 			),
 			'description'      => array(
-				'title'       => __( 'Descripción', 'y2kwebs-bac' ),
+				'title'       => __( 'Description', 'y2kwebs-bac' ),
 				'type'        => 'textarea',
-				'default'     => __( 'Pago seguro procesado por PowerTranz.', 'y2kwebs-bac' ),
-				'description' => __( 'Texto mostrado debajo del método de pago.', 'y2kwebs-bac' ),
+				'default'     => __( 'Secure payment processed by PowerTranz.', 'y2kwebs-bac' ),
+				'description' => __( 'Text displayed below the payment method.', 'y2kwebs-bac' ),
 			),
 			'environment'      => array(
-				'title'   => __( 'Entorno', 'y2kwebs-bac' ),
+				'title'   => __( 'Environment', 'y2kwebs-bac' ),
 				'type'    => 'select',
 				'default' => 'staging',
 				'options' => array(
-					'staging'    => __( 'Pruebas', 'y2kwebs-bac' ),
-					'production' => __( 'Producción', 'y2kwebs-bac' ),
+					'staging'    => __( 'Staging', 'y2kwebs-bac' ),
+					'production' => __( 'Production', 'y2kwebs-bac' ),
 				),
 			),
 			'availability_mode' => array(
-				'title'       => __( 'Visibilidad en el checkout', 'y2kwebs-bac' ),
+				'title'       => __( 'Checkout visibility', 'y2kwebs-bac' ),
 				'type'        => 'select',
 				'default'     => 'administrators',
-				'description' => __( 'Durante la certificación, mantenga el método visible sólo para administradores. Cámbielo a todos únicamente cuando esté listo para clientes.', 'y2kwebs-bac' ),
+				'description' => __( 'During certification, keep the method visible to administrators only. Make it available to everyone only when it is ready for customers.', 'y2kwebs-bac' ),
 				'options'     => array(
-					'administrators' => __( 'Sólo administradores', 'y2kwebs-bac' ),
-					'everyone'       => __( 'Todos los clientes', 'y2kwebs-bac' ),
+					'administrators' => __( 'Administrators only', 'y2kwebs-bac' ),
+					'everyone'       => __( 'All customers', 'y2kwebs-bac' ),
 				),
 			),
 			'api_root'         => array(
-				'title'       => __( 'Raíz del API', 'y2kwebs-bac' ),
+				'title'       => __( 'API root', 'y2kwebs-bac' ),
 				'type'        => 'url',
-				'description' => __( 'Opcional. Déjelo vacío para usar el endpoint oficial del entorno seleccionado.', 'y2kwebs-bac' ),
+				'description' => __( 'Optional. Leave empty to use the official endpoint for the selected environment.', 'y2kwebs-bac' ),
 				'default'     => '',
 			),
 			'crc_id'           => array(
 				'title'       => __( 'PowerTranz ID — CRC', 'y2kwebs-bac' ),
 				'type'        => 'text',
-				'description' => __( 'Identificador de la cuenta de colones facilitado por PowerTranz/BAC.', 'y2kwebs-bac' ),
+				'description' => __( 'Identifier of the CRC account supplied by PowerTranz/BAC.', 'y2kwebs-bac' ),
 			),
 			'crc_password'     => array(
-				'title'       => __( 'Contraseña — CRC', 'y2kwebs-bac' ),
+				'title'       => __( 'Password — CRC', 'y2kwebs-bac' ),
 				'type'        => 'password',
 				'description' => $secret_description,
 			),
 			'usd_id'           => array(
 				'title'       => __( 'PowerTranz ID — USD', 'y2kwebs-bac' ),
 				'type'        => 'text',
-				'description' => __( 'Identificador de la cuenta de dólares facilitado por PowerTranz/BAC.', 'y2kwebs-bac' ),
+				'description' => __( 'Identifier of the USD account supplied by PowerTranz/BAC.', 'y2kwebs-bac' ),
 			),
 			'usd_password'     => array(
-				'title'       => __( 'Contraseña — USD', 'y2kwebs-bac' ),
+				'title'       => __( 'Password — USD', 'y2kwebs-bac' ),
 				'type'        => 'password',
 				'description' => $secret_description,
 			),
 			'clear_secrets'    => array(
-				'title' => __( 'Eliminar contraseñas guardadas', 'y2kwebs-bac' ),
+				'title' => __( 'Delete saved passwords', 'y2kwebs-bac' ),
 				'type' => 'checkbox',
-				'label' => __( 'Borrar las contraseñas CRC y USD al guardar y desactivar la pasarela.', 'y2kwebs-bac' ),
+				'label' => __( 'Delete the CRC and USD passwords when saving and disable the gateway.', 'y2kwebs-bac' ),
 				'default' => 'no',
 			),
 			'allow_auth_u'     => array(
-				'title'       => __( 'Autenticación no disponible', 'y2kwebs-bac' ),
+				'title'       => __( 'Authentication unavailable', 'y2kwebs-bac' ),
 				'type'        => 'checkbox',
-				'label'       => __( 'Permitir completar pagos con AuthenticationStatus U', 'y2kwebs-bac' ),
-				'description' => __( 'Desactivado por defecto: las transacciones U no conservan protección frente a determinados contracargos.', 'y2kwebs-bac' ),
+				'label'       => __( 'Allow payment completion with AuthenticationStatus U', 'y2kwebs-bac' ),
+				'description' => __( 'Disabled by default: U transactions do not retain protection against certain chargebacks.', 'y2kwebs-bac' ),
 				'default'     => 'no',
 			),
 			'debug_logging'    => array(
-				'title'       => __( 'Registro de diagnóstico', 'y2kwebs-bac' ),
+				'title'       => __( 'Diagnostic logging', 'y2kwebs-bac' ),
 				'type'        => 'checkbox',
-				'label'       => __( 'Registrar fallos de PowerTranz en los logs de WooCommerce', 'y2kwebs-bac' ),
-				'description' => __( 'Registra sólo pedido, entorno, moneda, importe, ISO, mensaje saneado, resultado y campos 3DS seguros, además del PowerTranz ID enmascarado. Nunca registra PAN, CVV, credenciales, SpiToken, RedirectData, CAVV, XID ni DS Transaction ID.', 'y2kwebs-bac' ),
+				'label'       => __( 'Log PowerTranz failures in the WooCommerce logs', 'y2kwebs-bac' ),
+				'description' => __( 'Records only the order, environment, currency, amount, ISO, sanitized message, result and safe 3DS fields, plus a masked PowerTranz ID. Never records PAN, CVV, credentials, SpiToken, RedirectData, CAVV, XID or DS Transaction ID.', 'y2kwebs-bac' ),
 				'default'     => 'no',
 			),
 		);
@@ -154,17 +154,17 @@ final class Y2KWEBS_BAC_Gateway extends WC_Payment_Gateway {
 		return '<tr valign="top"><th scope="row"><label for="' . esc_attr( $id ) . '">' . esc_html( $data['title'] )
 			. '</label></th><td><input class="input-text regular-input" type="password" autocomplete="new-password" id="'
 			. esc_attr( $id ) . '" name="' . esc_attr( $id ) . '" value="" placeholder="'
-			. esc_attr( $configured ? __( 'Guardada: deje vacío para conservar', 'y2kwebs-bac' ) : __( 'Cuenta sin configurar', 'y2kwebs-bac' ) )
+			. esc_attr( $configured ? __( 'Saved: leave empty to keep', 'y2kwebs-bac' ) : __( 'Account not configured', 'y2kwebs-bac' ) )
 			. '"><p class="description">' . esc_html( $data['description'] ?? '' ) . '</p></td></tr>';
 	}
 
 	public function validate_password_field( $key, $value ) {
 		if ( null !== $value && ! is_string( $value ) ) {
-			throw new Exception( esc_html__( 'La contraseña no tiene un formato válido.', 'y2kwebs-bac' ) );
+			throw new Exception( esc_html__( 'The password has an invalid format.', 'y2kwebs-bac' ) );
 		}
 		$value = is_string( $value ) ? wp_unslash( $value ) : '';
 		if ( ! Y2KWEBS_BAC_Secrets::valid( $value ) ) {
-			throw new Exception( esc_html__( 'La contraseña no tiene un formato válido.', 'y2kwebs-bac' ) );
+			throw new Exception( esc_html__( 'The password has an invalid format.', 'y2kwebs-bac' ) );
 		}
 		return $value;
 	}
@@ -172,13 +172,13 @@ final class Y2KWEBS_BAC_Gateway extends WC_Payment_Gateway {
 	public function process_admin_options() {
 		// WooCommerce also checks this nonce before dispatching its settings-save action.
 		if ( ! current_user_can( 'manage_woocommerce' ) || ! isset( $_POST['_wpnonce'] ) || ! is_string( $_POST['_wpnonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) ), 'woocommerce-settings' ) ) {
-			$this->add_error( __( 'No se pudo autorizar el cambio de ajustes.', 'y2kwebs-bac' ) );
+			$this->add_error( __( 'The settings change could not be authorized.', 'y2kwebs-bac' ) );
 			return false;
 		}
 		$result = parent::process_admin_options();
 		$this->init_settings();
 		if ( Y2KWEBS_BAC_Settings::has_error() ) {
-			$this->add_error( __( 'No se pudieron guardar las contraseñas cifradas. Los ajustes anteriores se conservan. Revise OpenSSL y la configuración de la instalación.', 'y2kwebs-bac' ) );
+			$this->add_error( __( 'The encrypted passwords could not be saved. Previous settings are preserved. Check OpenSSL and the installation configuration.', 'y2kwebs-bac' ) );
 		}
 		return $result;
 	}
@@ -234,14 +234,14 @@ final class Y2KWEBS_BAC_Gateway extends WC_Payment_Gateway {
 
 	public function process_payment( $order_id ) {
 		if ( ! $this->acquire_order_lock( $order_id ) ) {
-			wc_add_notice( __( 'Ya estamos procesando este pedido. Espere antes de continuar.', 'y2kwebs-bac' ), 'error' );
+			wc_add_notice( __( 'This order is already being processed. Wait before continuing.', 'y2kwebs-bac' ), 'error' );
 			return array( 'result' => 'failure' );
 		}
 		try {
 			$order = wc_get_order( $order_id );
 			if ( ! $order || $this->id !== $order->get_payment_method() || 'yes' !== $this->enabled
 				|| ( 'administrators' === $this->get_option( 'availability_mode', 'administrators' ) && ! current_user_can( 'manage_woocommerce' ) ) ) {
-				wc_add_notice( __( 'No pudimos validar el pedido. Por favor, inténtelo de nuevo.', 'y2kwebs-bac' ), 'error' );
+				wc_add_notice( __( 'The order could not be validated. Please try again.', 'y2kwebs-bac' ), 'error' );
 				return array( 'result' => 'failure' );
 			}
 			if ( $order->is_paid() || 'completed' === $order->get_meta( self::META_PREFIX . 'status', true ) ) {
@@ -249,7 +249,7 @@ final class Y2KWEBS_BAC_Gateway extends WC_Payment_Gateway {
 			}
 			$status = $order->get_meta( self::META_PREFIX . 'status', true );
 			if ( in_array( $status, array( 'payment_sending', 'unknown', 'starting' ), true ) ) {
-				wc_add_notice( __( 'El pago está pendiente de revisión. Contacte con la tienda antes de volver a pagar.', 'y2kwebs-bac' ), 'error' );
+				wc_add_notice( __( 'The payment is pending review. Contact the store before paying again.', 'y2kwebs-bac' ), 'error' );
 				return array( 'result' => 'failure' );
 			}
 			if ( 'authentication_pending' === $status ) {
@@ -263,7 +263,7 @@ final class Y2KWEBS_BAC_Gateway extends WC_Payment_Gateway {
 			}
 			$account = $this->currency_config->account_for( $order->get_currency() );
 			if ( null === $account ) {
-				wc_add_notice( __( 'Este método de pago no está disponible para la moneda del pedido.', 'y2kwebs-bac' ), 'error' );
+				wc_add_notice( __( 'This payment method is not available for the order currency.', 'y2kwebs-bac' ), 'error' );
 				return array( 'result' => 'failure' );
 			}
 
@@ -298,7 +298,7 @@ final class Y2KWEBS_BAC_Gateway extends WC_Payment_Gateway {
 			$allowed = apply_filters( 'y2kwebs_bac_can_start_payment', true, $order );
 			if ( true !== $allowed ) {
 				unset( $payload, $card );
-				wc_add_notice( is_wp_error( $allowed ) ? esc_html( $allowed->get_error_message() ) : __( 'No se puede iniciar este pago. Contacte con la tienda.', 'y2kwebs-bac' ), 'error' );
+				wc_add_notice( is_wp_error( $allowed ) ? esc_html( $allowed->get_error_message() ) : __( 'This payment cannot be started. Contact the store.', 'y2kwebs-bac' ), 'error' );
 				return array( 'result' => 'failure' );
 			}
 
@@ -344,7 +344,7 @@ final class Y2KWEBS_BAC_Gateway extends WC_Payment_Gateway {
 
 			$order->update_meta_data( self::META_PREFIX . 'redirect_data', (string) $response['RedirectData'] );
 			$order->update_meta_data( self::META_PREFIX . 'status', 'authentication_pending' );
-			$order->add_order_note( __( 'PowerTranz inició la autenticación 3DS (SP4).', 'y2kwebs-bac' ) );
+			$order->add_order_note( __( 'PowerTranz started 3DS authentication (SP4).', 'y2kwebs-bac' ) );
 			$order->save();
 
 			return array(
@@ -364,18 +364,18 @@ final class Y2KWEBS_BAC_Gateway extends WC_Payment_Gateway {
 
 		$redirect_data = (string) $order->get_meta( self::META_PREFIX . 'redirect_data', true );
 		if ( '' === $redirect_data ) {
-			echo '<p>' . esc_html__( 'No pudimos cargar el proceso de pago. Por favor, vuelva al pedido e inténtelo de nuevo.', 'y2kwebs-bac' ) . '</p>';
+			echo '<p>' . esc_html__( 'The payment process could not be loaded. Please return to the order and try again.', 'y2kwebs-bac' ) . '</p>';
 			return;
 		}
 
 		$message_type = 'y2kwebs-bac-result-' . $order->get_id();
 		?>
 		<div class="y2kwebs-bac-authentication">
-			<p><?php esc_html_e( 'Por favor, espere mientras procesamos su pago.', 'y2kwebs-bac' ); ?></p>
+			<p><?php esc_html_e( 'Please wait while we process your payment.', 'y2kwebs-bac' ); ?></p>
 			<iframe
 				id="y2kwebs-bac-frame"
 				data-message-type="<?php echo esc_attr( $message_type ); ?>"
-				title="<?php echo esc_attr__( 'Procesamiento seguro del pago', 'y2kwebs-bac' ); ?>"
+				title="<?php echo esc_attr__( 'Secure payment processing', 'y2kwebs-bac' ); ?>"
 				<?php // Preserve existing HTML entities through both the attribute parser and srcdoc parser. ?>
 				srcdoc="<?php echo esc_attr( str_replace( '&', '&amp;', $redirect_data ) ); ?>"
 			></iframe>
@@ -485,7 +485,7 @@ final class Y2KWEBS_BAC_Gateway extends WC_Payment_Gateway {
 			$order->save();
 			$order->payment_complete( $transaction_id );
 			/* translators: 1: 3DS authentication status, 2: bank transaction identifier. */
-			$order->add_order_note( sprintf( __( 'Pago PowerTranz aprobado. 3DS: %1$s; ISO: 00; transacción: %2$s.', 'y2kwebs-bac' ), $authentication_status, $transaction_id ) );
+			$order->add_order_note( sprintf( __( 'PowerTranz payment approved. 3DS: %1$s; ISO: 00; transaction: %2$s.', 'y2kwebs-bac' ), $authentication_status, $transaction_id ) );
 			return array( 'order' => $order, 'url' => $this->get_return_url( $order ) );
 		} finally {
 			$this->release_order_lock( $order_id );
@@ -505,7 +505,7 @@ final class Y2KWEBS_BAC_Gateway extends WC_Payment_Gateway {
 		$order->update_meta_data( self::META_PREFIX . 'status', 'unknown' );
 		$order->delete_meta_data( self::META_PREFIX . 'redirect_data' );
 		$order->save();
-		$order->update_status( 'on-hold', __( 'No se pudo confirmar el resultado bancario. Revise PowerTranz antes de aceptar otro pago. No se ha repetido el cobro.', 'y2kwebs-bac' ) );
+		$order->update_status( 'on-hold', __( 'The bank result could not be confirmed. Check PowerTranz before accepting another payment. The charge has not been repeated.', 'y2kwebs-bac' ) );
 	}
 
 	public function maybe_add_result_notice() {
@@ -517,7 +517,7 @@ final class Y2KWEBS_BAC_Gateway extends WC_Payment_Gateway {
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only notice flag.
 		$result = sanitize_key( wp_unslash( $_GET['y2kwebs_bac_result'] ) );
 		if ( 'failed' === $result ) {
-			wc_add_notice( __( 'No pudimos completar el pago. Por favor, inténtelo de nuevo.', 'y2kwebs-bac' ), 'error' );
+			wc_add_notice( __( 'The payment could not be completed. Please try again.', 'y2kwebs-bac' ), 'error' );
 		}
 	}
 
@@ -551,26 +551,26 @@ final class Y2KWEBS_BAC_Gateway extends WC_Payment_Gateway {
 		$cvv    = preg_replace( '/\D+/', '', $this->posted_value( 'y2kwebs_bac_card_cvv' ) );
 
 		if ( strlen( $holder ) < 2 || strlen( $holder ) > self::CARDHOLDER_NAME_MAX_LENGTH ) {
-			throw new Exception( esc_html__( 'Ingrese el nombre del titular de la tarjeta.', 'y2kwebs-bac' ) );
+			throw new Exception( esc_html__( 'Enter the cardholder name.', 'y2kwebs-bac' ) );
 		}
 
 		if ( strlen( $pan ) < 12 || strlen( $pan ) > 19 || ! $this->passes_luhn( $pan ) ) {
-			throw new Exception( esc_html__( 'El número de tarjeta no es válido.', 'y2kwebs-bac' ) );
+			throw new Exception( esc_html__( 'The card number is invalid.', 'y2kwebs-bac' ) );
 		}
 
 		if ( ! preg_match( '/^(0[1-9]|1[0-2])\/(\d{2}|\d{4})$/', $expiry, $matches ) ) {
-			throw new Exception( esc_html__( 'La fecha de vencimiento no es válida.', 'y2kwebs-bac' ) );
+			throw new Exception( esc_html__( 'The expiry date is invalid.', 'y2kwebs-bac' ) );
 		}
 
 		$month = (int) $matches[1];
 		$year  = (int) $matches[2];
 		$year  = $year < 100 ? 2000 + $year : $year;
 		if ( $year < (int) gmdate( 'Y' ) || ( $year === (int) gmdate( 'Y' ) && $month < (int) gmdate( 'n' ) ) ) {
-			throw new Exception( esc_html__( 'La tarjeta está vencida.', 'y2kwebs-bac' ) );
+			throw new Exception( esc_html__( 'The card has expired.', 'y2kwebs-bac' ) );
 		}
 
 		if ( ! preg_match( '/^\d{3,4}$/', $cvv ) ) {
-			throw new Exception( esc_html__( 'El código de seguridad no es válido.', 'y2kwebs-bac' ) );
+			throw new Exception( esc_html__( 'The security code is invalid.', 'y2kwebs-bac' ) );
 		}
 
 		return array(
@@ -606,11 +606,11 @@ final class Y2KWEBS_BAC_Gateway extends WC_Payment_Gateway {
 		$country_code = Y2KWEBS_BAC_Country_Codes::numeric( $order->get_billing_country() );
 
 		if ( ! is_email( $email ) || strlen( $email ) > self::EMAIL_MAX_LENGTH || strlen( $phone ) < 7 || strlen( $phone ) > self::PHONE_MAX_LENGTH ) {
-			throw new InvalidArgumentException( esc_html__( 'Revise el correo y el teléfono de facturación.', 'y2kwebs-bac' ) );
+			throw new InvalidArgumentException( esc_html__( 'Check the billing email and phone number.', 'y2kwebs-bac' ) );
 		}
 
 		if ( null === $country_code ) {
-			throw new InvalidArgumentException( esc_html__( 'Seleccione un país de facturación válido.', 'y2kwebs-bac' ) );
+			throw new InvalidArgumentException( esc_html__( 'Select a valid billing country.', 'y2kwebs-bac' ) );
 		}
 
 		return array(
@@ -718,7 +718,7 @@ final class Y2KWEBS_BAC_Gateway extends WC_Payment_Gateway {
 			Y2KWEBS_BAC_Diagnostics::write_log( $context );
 		}
 
-		wc_add_notice( __( 'No pudimos iniciar el pago. Por favor, inténtelo de nuevo.', 'y2kwebs-bac' ), 'error' );
+		wc_add_notice( __( 'The payment could not be started. Please try again.', 'y2kwebs-bac' ), 'error' );
 	}
 
 	private function fail_authenticated_order( WC_Order $order, $reason, array $response ) {
@@ -803,9 +803,9 @@ final class Y2KWEBS_BAC_Gateway extends WC_Payment_Gateway {
 		header( 'Content-Type: text/html; charset=' . get_option( 'blog_charset' ) );
 		?>
 		<!doctype html>
-		<html><head><meta charset="utf-8"><title><?php esc_html_e( 'Resultado del pago', 'y2kwebs-bac' ); ?></title></head>
+		<html><head><meta charset="utf-8"><title><?php esc_html_e( 'Payment result', 'y2kwebs-bac' ); ?></title></head>
 		<body data-message-type="<?php echo esc_attr( $message_type ); ?>" data-return-url="<?php echo esc_url( $url ); ?>">
-		<noscript><a href="<?php echo esc_url( $url ); ?>" target="_top"><?php esc_html_e( 'Continuar', 'y2kwebs-bac' ); ?></a></noscript>
+		<noscript><a href="<?php echo esc_url( $url ); ?>" target="_top"><?php esc_html_e( 'Continue', 'y2kwebs-bac' ); ?></a></noscript>
 		<?php // This standalone bank response has no theme header or footer. Print only its own handle. ?>
 		<?php wp_print_scripts( array( 'y2kwebs-bac-callback' ) ); ?>
 		</body></html>

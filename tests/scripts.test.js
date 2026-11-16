@@ -50,3 +50,29 @@ test('callback sends only validated result data to its own origin', () => {
 		assert.deepEqual(messages, returnUrl && returnUrl.startsWith('/') ? [{ message: { type: 'y2kwebs-bac-result-42', url: origin + returnUrl }, target: origin }] : []);
 	}
 });
+
+test('Blocks renders localized settings and uses the localized validation message', () => {
+	for (const locale of ['es_ES', 'es_CR', 'es_MX', 'es_AR', 'en_US', 'en_GB']) {
+		const es = locale.startsWith('es_');
+		const settings = {
+			title: 'Mi tarjeta BAC', description: 'Descripción guardada',
+			cardholderLabel: es ? 'Nombre del titular' : 'Cardholder name',
+			panLabel: es ? 'Número de tarjeta' : 'Card number',
+			expiryLabel: es ? 'Vencimiento' : 'Expiry date',
+			expiryPlaceholder: es ? 'MM/AA' : 'MM/YY',
+			cvvLabel: es ? 'Código de seguridad' : 'Security code',
+			validationMessage: es ? 'Revise los datos de la tarjeta.' : 'Check the card details.'
+		};
+		let registered, paymentSetup;
+		const element = {createElement: (type, props, ...children) => ({type, props, children}), useState: () => ['', () => {}], useEffect: callback => callback()};
+		vm.runInNewContext(source('blocks.js'), {window: {
+			wc: {wcSettings: {getSetting: () => settings}, wcBlocksRegistry: {registerPaymentMethod: value => {registered = value;}}},
+			wp: {element, htmlEntities: {decodeEntities: text => text}}
+		}});
+		const tree = registered.content.type({emitResponse: {responseTypes: {ERROR: 'error', SUCCESS: 'success'}}, eventRegistration: {onPaymentSetup: callback => {paymentSetup = callback;}}});
+		const rendered = JSON.stringify(tree);
+		for (const value of [settings.description, settings.cardholderLabel, settings.panLabel, settings.expiryLabel, settings.expiryPlaceholder, settings.cvvLabel]) assert.ok(rendered.includes(value), locale + ': ' + value);
+		assert.equal(registered.label.type(), settings.title);
+		assert.equal(paymentSetup().message, settings.validationMessage);
+	}
+});

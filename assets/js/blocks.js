@@ -50,7 +50,7 @@
 				if (holder.trim().length < 2 || !passesLuhn(pan) || !/^(0[1-9]|1[0-2])\/\d{2}$/.test(expiry) || !/^\d{3,4}$/.test(cvv)) {
 					return {
 						type: responseTypes.ERROR,
-						message: settings.validationMessage || 'Revise los datos de la tarjeta.'
+						message: settings.validationMessage || 'Check the card details.'
 					};
 				}
 
@@ -70,17 +70,17 @@
 
 		return el('div', { className: 'y2kwebs-bac-block-fields' },
 			el('p', null, decodeEntities(settings.description || '')),
-			el('label', null, settings.cardholderLabel || 'Nombre del titular',
+			el('label', null, settings.cardholderLabel || 'Cardholder name',
 				el('input', { type: 'text', autoComplete: 'cc-name', maxLength: 45, value: holder, onChange: function (event) { setHolder(event.target.value); } })
 			),
-			el('label', null, settings.panLabel || 'Número de tarjeta',
+			el('label', null, settings.panLabel || 'Card number',
 				el('input', { type: 'text', inputMode: 'numeric', autoComplete: 'cc-number', maxLength: 23, value: pan, onChange: function (event) { setPan(digits(event.target.value).slice(0, 19).replace(/(.{4})/g, '$1 ').trim()); } })
 			),
 			el('div', { className: 'y2kwebs-bac-block-row' },
-				el('label', null, settings.expiryLabel || 'Vencimiento',
-					el('input', { type: 'text', inputMode: 'numeric', autoComplete: 'cc-exp', maxLength: 5, placeholder: 'MM/AA', value: expiry, onChange: function (event) { var value = digits(event.target.value).slice(0, 4); setExpiry(value.length > 2 ? value.slice(0, 2) + '/' + value.slice(2) : value); } })
+				el('label', null, settings.expiryLabel || 'Expiry date',
+					el('input', { type: 'text', inputMode: 'numeric', autoComplete: 'cc-exp', maxLength: 5, placeholder: settings.expiryPlaceholder || 'MM/YY', value: expiry, onChange: function (event) { var value = digits(event.target.value).slice(0, 4); setExpiry(value.length > 2 ? value.slice(0, 2) + '/' + value.slice(2) : value); } })
 				),
-				el('label', null, settings.cvvLabel || 'Código de seguridad',
+				el('label', null, settings.cvvLabel || 'Security code',
 					el('input', { type: 'password', inputMode: 'numeric', autoComplete: 'cc-csc', maxLength: 4, value: cvv, onChange: function (event) { setCvv(digits(event.target.value).slice(0, 4)); } })
 				)
 			),
@@ -89,7 +89,7 @@
 	}
 
 	function Label() {
-		return decodeEntities(settings.title || 'Tarjeta de crédito o débito');
+		return decodeEntities(settings.title || 'Credit or debit card');
 	}
 
 	registerPaymentMethod({
@@ -101,7 +101,7 @@
 			var currency = data && data.cartTotals ? data.cartTotals.currency_code : '';
 			return !currency || (settings.supportedCurrencies || []).indexOf(currency) !== -1;
 		},
-		ariaLabel: decodeEntities(settings.title || 'Tarjeta de crédito o débito'),
+		ariaLabel: decodeEntities(settings.title || 'Credit or debit card'),
 		supports: { features: settings.supports || ['products'] }
 	});
 }());

@@ -51,7 +51,7 @@ final class Y2KWEBS_BAC_API_Client {
 		$url = $this->api_root . '/' . ltrim( (string) $endpoint, '/' );
 
 		if ( ! wp_http_validate_url( $url ) || 'https' !== wp_parse_url( $url, PHP_URL_SCHEME ) ) {
-			return new WP_Error( 'y2kwebs_bac_invalid_url', __( 'La URL de PowerTranz debe ser HTTPS y válida.', 'y2kwebs-bac' ) );
+			return new WP_Error( 'y2kwebs_bac_invalid_url', __( 'The PowerTranz URL must be valid and use HTTPS.', 'y2kwebs-bac' ) );
 		}
 
 		$body = $fixed_decimal_amount ? $this->encode_sale_payload( $payload ) : wp_json_encode( $payload );
@@ -61,7 +61,7 @@ final class Y2KWEBS_BAC_API_Client {
 		}
 
 		if ( false === $body ) {
-			return new WP_Error( 'y2kwebs_bac_invalid_payload', __( 'No fue posible preparar la solicitud para PowerTranz.', 'y2kwebs-bac' ) );
+			return new WP_Error( 'y2kwebs_bac_invalid_payload', __( 'The PowerTranz request could not be prepared.', 'y2kwebs-bac' ) );
 		}
 
 		$response = wp_safe_remote_post(
@@ -83,14 +83,14 @@ final class Y2KWEBS_BAC_API_Client {
 		);
 
 		if ( is_wp_error( $response ) ) {
-			return new WP_Error( 'y2kwebs_bac_transport_error', __( 'No fue posible comunicarse con PowerTranz.', 'y2kwebs-bac' ) );
+			return new WP_Error( 'y2kwebs_bac_transport_error', __( 'Could not communicate with PowerTranz.', 'y2kwebs-bac' ) );
 		}
 
 		$status = (int) wp_remote_retrieve_response_code( $response );
 		$body   = json_decode( wp_remote_retrieve_body( $response ), true );
 
 		if ( $status < 200 || $status >= 300 || ! is_array( $body ) ) {
-			return new WP_Error( 'y2kwebs_bac_invalid_response', __( 'PowerTranz devolvió una respuesta no válida.', 'y2kwebs-bac' ) );
+			return new WP_Error( 'y2kwebs_bac_invalid_response', __( 'PowerTranz returned an invalid response.', 'y2kwebs-bac' ) );
 		}
 
 		return $body;
@@ -109,28 +109,28 @@ final class Y2KWEBS_BAC_API_Client {
 	 */
 	private function encode_sale_payload( $payload ) {
 		if ( ! is_array( $payload ) || ! isset( $payload['TotalAmount'] ) || ! is_string( $payload['TotalAmount'] ) ) {
-			return new WP_Error( 'y2kwebs_bac_invalid_amount', __( 'El importe del pedido no tiene un formato válido.', 'y2kwebs-bac' ) );
+			return new WP_Error( 'y2kwebs_bac_invalid_amount', __( 'The order amount has an invalid format.', 'y2kwebs-bac' ) );
 		}
 
 		$amount = $payload['TotalAmount'];
 		if ( ! preg_match( '/^(?:0|[1-9][0-9]{0,15})\.[0-9]{2}$/', $amount ) ) {
-			return new WP_Error( 'y2kwebs_bac_invalid_amount', __( 'El importe del pedido no tiene un formato válido.', 'y2kwebs-bac' ) );
+			return new WP_Error( 'y2kwebs_bac_invalid_amount', __( 'The order amount has an invalid format.', 'y2kwebs-bac' ) );
 		}
 
 		list( $whole, $cents ) = explode( '.', $amount, 2 );
 		$maximum              = '1000000000000000';
 		if ( strlen( $whole ) > strlen( $maximum ) || ( strlen( $whole ) === strlen( $maximum ) && strcmp( $whole, $maximum ) > 0 ) || ( $maximum === $whole && '00' !== $cents ) ) {
-			return new WP_Error( 'y2kwebs_bac_invalid_amount', __( 'El importe del pedido está fuera del rango permitido.', 'y2kwebs-bac' ) );
+			return new WP_Error( 'y2kwebs_bac_invalid_amount', __( 'The order amount is outside the permitted range.', 'y2kwebs-bac' ) );
 		}
 
 		$encoded = wp_json_encode( $payload );
 		if ( false === $encoded ) {
-			return new WP_Error( 'y2kwebs_bac_invalid_payload', __( 'No fue posible preparar la solicitud para PowerTranz.', 'y2kwebs-bac' ) );
+			return new WP_Error( 'y2kwebs_bac_invalid_payload', __( 'The PowerTranz request could not be prepared.', 'y2kwebs-bac' ) );
 		}
 
 		$quoted_field = '"TotalAmount":' . wp_json_encode( $amount );
 		if ( 1 !== substr_count( $encoded, $quoted_field ) ) {
-			return new WP_Error( 'y2kwebs_bac_invalid_amount', __( 'El importe del pedido no tiene un formato válido.', 'y2kwebs-bac' ) );
+			return new WP_Error( 'y2kwebs_bac_invalid_amount', __( 'The order amount has an invalid format.', 'y2kwebs-bac' ) );
 		}
 
 		return str_replace( $quoted_field, '"TotalAmount":' . $amount, $encoded );
