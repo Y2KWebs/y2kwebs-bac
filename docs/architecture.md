@@ -11,6 +11,12 @@ El arranque registra la pasarela WooCommerce, el callback independiente de la se
 
 Un reintento después de un rechazo definitivo crea otro estado y otra referencia. Limpia los diagnósticos del intento anterior y conserva las notas históricas. Un callback anterior no puede completar el intento nuevo.
 
+## Recursos del flujo 3DS
+
+Desde 1.0.1, el listener `authentication.js` se encola en cabecera en las páginas de pago de pedidos, antes de cargar el iframe. Los mensajes solo pueden redirigir si coinciden la ventana del iframe, el origen, el identificador del pedido y un destino del mismo origen. El identificador se transporta como atributo HTML escapado y el listener busca el iframe al recibir el mensaje.
+
+El retorno bancario genera un documento independiente del tema. Encola `callback.js` y emite únicamente ese handle mediante `wp_print_scripts()`, tras los atributos escapados de tipo de mensaje y URL. La CSP permite scripts del mismo origen y ancestros del mismo origen, sin `unsafe-inline`; se conserva la continuación sin JavaScript. El HTML 3DS del banco permanece intacto dentro de `srcdoc`, con su codificación anidada de entidades.
+
 ## Credenciales y datos
 
 `Y2KWEBS_BAC_Settings` protege las escrituras del formulario nativo y de la API WooCommerce. Las contraseñas se cifran en `y2kwebs_bac_secrets`, sin autoload; el ajuste general conserva los identificadores y campos de configuración, con contraseñas vacías. `Y2KWEBS_BAC_Currency_Config` resuelve la precedencia opcional constante → entorno → administrador y selecciona la cuenta por moneda.

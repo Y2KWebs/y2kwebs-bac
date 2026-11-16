@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Y2KWebs Gateway for BAC
  * Description: Pagos de contado mediante PowerTranz SPI 3DS para cuentas CRC y USD.
- * Version: 1.0.0
+ * Version: 1.0.1
  * Plugin URI: https://github.com/Y2KWebs/y2kwebs-bac
  * Author: Y2KWebs
  * Author URI: https://y2kwebs.com/
@@ -18,7 +18,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'Y2KWEBS_BAC_VERSION', '1.0.0' );
+define( 'Y2KWEBS_BAC_VERSION', '1.0.1' );
 define( 'Y2KWEBS_BAC_FILE', __FILE__ );
 define( 'Y2KWEBS_BAC_PATH', plugin_dir_path( __FILE__ ) );
 define( 'Y2KWEBS_BAC_URL', plugin_dir_url( __FILE__ ) );

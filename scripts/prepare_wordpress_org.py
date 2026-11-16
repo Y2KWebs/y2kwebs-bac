@@ -2,13 +2,13 @@
 import hashlib
 import json
 from pathlib import Path
-from package import ROOT, FILES, SCREENSHOTS, SLUG, VERSION, package
+from package import ROOT, FILES, SCREENSHOTS, ARTWORK, SLUG, VERSION, package
 
 
 def prepare(root=ROOT):
     root = Path(root).resolve()
     archive, digest = package(root)
-    out = root / "dist" / "wordpress-org"
+    out = root / "dist" / f"wordpress-org-{VERSION}"
     expected = {"manifest.json"}
     entries = {}
     for prefix in ("svn/trunk", f"svn/tags/{VERSION}"):
@@ -16,6 +16,8 @@ def prepare(root=ROOT):
             entries[f"{prefix}/{name}"] = (root / name).read_bytes()
     for number, name in enumerate(SCREENSHOTS, 1):
         entries[f"svn/assets/screenshot-{number}{Path(name).suffix}"] = (root / name).read_bytes()
+    for name in ARTWORK:
+        entries[f"svn/assets/{Path(name).name}"] = (root / name).read_bytes()
     expected.update(entries)
     if out.is_symlink() or (out.exists() and not out.is_dir()):
         raise ValueError("Unsafe preparation directory")

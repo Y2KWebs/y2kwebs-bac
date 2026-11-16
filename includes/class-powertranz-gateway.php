@@ -216,6 +216,10 @@ final class Y2KWEBS_BAC_Gateway extends WC_Payment_Gateway {
 
 		wp_enqueue_style( 'y2kwebs-bac-checkout', Y2KWEBS_BAC_URL . 'assets/css/checkout.css', array(), Y2KWEBS_BAC_VERSION );
 		wp_enqueue_script( 'y2kwebs-bac-checkout', Y2KWEBS_BAC_URL . 'assets/js/checkout.js', array(), Y2KWEBS_BAC_VERSION, true );
+		if ( is_checkout_pay_page() ) {
+			// Install the listener before an issuer can immediately return from the iframe.
+			wp_enqueue_script( 'y2kwebs-bac-authentication', Y2KWEBS_BAC_URL . 'assets/js/authentication.js', array(), Y2KWEBS_BAC_VERSION, false );
+		}
 	}
 
 	public function validate_fields() {
@@ -370,30 +374,12 @@ final class Y2KWEBS_BAC_Gateway extends WC_Payment_Gateway {
 			<p><?php esc_html_e( 'Por favor, espere mientras procesamos su pago.', 'y2kwebs-bac' ); ?></p>
 			<iframe
 				id="y2kwebs-bac-frame"
+				data-message-type="<?php echo esc_attr( $message_type ); ?>"
 				title="<?php echo esc_attr__( 'Procesamiento seguro del pago', 'y2kwebs-bac' ); ?>"
 				<?php // Preserve existing HTML entities through both the attribute parser and srcdoc parser. ?>
 				srcdoc="<?php echo esc_attr( str_replace( '&', '&amp;', $redirect_data ) ); ?>"
 			></iframe>
 		</div>
-		<script>
-		(function () {
-			'use strict';
-			var frame = document.getElementById('y2kwebs-bac-frame');
-			window.addEventListener('message', function (event) {
-				if (!frame || event.source !== frame.contentWindow || !event.data || event.data.type !== <?php echo wp_json_encode( $message_type ); ?>) {
-					return;
-				}
-				try {
-					var destination = new URL(event.data.url, window.location.origin);
-					if (destination.origin === window.location.origin) {
-						window.location.replace(destination.href);
-					}
-				} catch (error) {
-					return;
-				}
-			});
-		}());
-		</script>
 		<?php
 	}
 
@@ -810,18 +796,18 @@ final class Y2KWEBS_BAC_Gateway extends WC_Payment_Gateway {
 	private function output_callback_redirect( WC_Order $order, $url ) {
 		$message_type = 'y2kwebs-bac-result-' . $order->get_id();
 		$url          = wp_validate_redirect( $url, wc_get_checkout_url() );
+		wp_enqueue_script( 'y2kwebs-bac-callback', Y2KWEBS_BAC_URL . 'assets/js/callback.js', array(), Y2KWEBS_BAC_VERSION, false );
 
 		nocache_headers();
-		header( "Content-Security-Policy: default-src 'none'; script-src 'unsafe-inline'; frame-ancestors 'self'" );
+		header( "Content-Security-Policy: default-src 'none'; script-src 'self'; frame-ancestors 'self'" );
 		header( 'Content-Type: text/html; charset=' . get_option( 'blog_charset' ) );
 		?>
 		<!doctype html>
 		<html><head><meta charset="utf-8"><title><?php esc_html_e( 'Resultado del pago', 'y2kwebs-bac' ); ?></title></head>
-		<body>
-		<script>
-		window.parent.postMessage({type: <?php echo wp_json_encode( $message_type ); ?>, url: <?php echo wp_json_encode( $url ); ?>}, window.location.origin);
-		</script>
+		<body data-message-type="<?php echo esc_attr( $message_type ); ?>" data-return-url="<?php echo esc_url( $url ); ?>">
 		<noscript><a href="<?php echo esc_url( $url ); ?>" target="_top"><?php esc_html_e( 'Continuar', 'y2kwebs-bac' ); ?></a></noscript>
+		<?php // This standalone bank response has no theme header or footer. Print only its own handle. ?>
+		<?php wp_print_scripts( array( 'y2kwebs-bac-callback' ) ); ?>
 		</body></html>
 		<?php
 		exit;

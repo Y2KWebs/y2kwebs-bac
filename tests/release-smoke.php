@@ -4,7 +4,7 @@ if ( ! defined( 'WP_CLI' ) || ! WP_CLI || ! defined( 'Y2KWEBS_BAC_LOCAL_TEST' ) 
 $checks = 0;
 $assert = static function ( $ok, $message ) use ( &$checks ) { if ( ! $ok ) { throw new RuntimeException( $message ); } ++$checks; };
 add_filter( 'pre_http_request', static function () { return new WP_Error( 'release_external_blocked', 'External HTTP blocked.' ); }, 999 );
-$assert( defined( 'Y2KWEBS_BAC_VERSION' ) && '1.0.0' === Y2KWEBS_BAC_VERSION, 'Expected release version.' );
+$assert( defined( 'Y2KWEBS_BAC_VERSION' ) && '1.0.1' === Y2KWEBS_BAC_VERSION, 'Expected release version.' );
 $assert( ! is_dir( Y2KWEBS_BAC_PATH . 'tests' ) && ! is_dir( Y2KWEBS_BAC_PATH . '.runtime' ), 'Extracted release contains no development files.' );
 $gateways = WC()->payment_gateways()->payment_gateways();
 $assert( isset( $gateways['y2kwebs_bac'] ), 'Gateway registered.' );
@@ -17,4 +17,5 @@ $header = get_file_data( Y2KWEBS_BAC_FILE, array( 'domain' => 'Text Domain', 're
 $assert( 'y2kwebs-bac' === $header['domain'] && 'woocommerce' === $header['requires'] && '' === $header['update'], 'WordPress.org header identity.' );
 $assert( class_exists( 'Y2KWEBS_BAC_Blocks_Support' ), 'Blocks integration loaded.' );
 foreach ( array( 'settings.jpg', 'blocks.jpg' ) as $name ) { $assert( is_file( Y2KWEBS_BAC_PATH . 'docs/images/' . $name ), 'Reviewed screenshot exists.' ); }
+foreach ( array( 'authentication.js', 'callback.js' ) as $name ) { $assert( is_file( Y2KWEBS_BAC_PATH . 'assets/js/' . $name ), '3DS external script exists in the extracted release.' ); }
 echo "PASS: $checks extracted-release assertions; external HTTP blocked.\n";
